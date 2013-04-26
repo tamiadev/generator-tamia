@@ -1,0 +1,38 @@
+{
+  "name": "generator-tamia",
+  "version": "0.0.1",
+  "description": "Scaffolds out Tâmia with lots of other stuff.",
+  "keywords": [],
+  "homepage": "https://github.com/sapegin/generator-tamia",
+  "bugs": "https://github.com/sapegin/generator-tamia/issues",
+  "author": {
+    "name": "Artem Sapegin",
+    "email": "artem@sapegin.ru",
+    "url": "http://sapegin.me"
+  },
+  "main": "app/index.coffee",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sapegin/generator-tamia.git"
+  },
+  "scripts": {
+    "test": "mocha test/test-*.js",
+    "watch": "coffee -cw app/index.coffee",
+    "prepublish": "coffee -c app/index.coffee"
+  },
+  "dependencies": {
+    "yeoman-generator": "~0.10.5"
+  },
+  "devDependencies": {
+    "mocha": "~1.8.2",
+    "coffee-script": "~1.6.2"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ]
+}
