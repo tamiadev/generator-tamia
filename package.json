@@ -21,7 +21,8 @@
     "prepublish": "coffee -o ./ -c src/"
   },
   "dependencies": {
-    "yeoman-generator": "~0.10.5"
+    "yeoman-generator": "~0.10.5",
+    "lodash": "~1.2.0"
   },
   "devDependencies": {
     "mocha": "~1.9.0",

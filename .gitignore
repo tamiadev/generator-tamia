@@ -1,4 +1,5 @@
 node_modules
-app/templates/tamia
-app/index.js
+framework/templates/tamia
 test/temp
+base.js
+/*/index.js
