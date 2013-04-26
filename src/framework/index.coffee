@@ -2,16 +2,13 @@
 
 util = require 'util'
 path = require 'path'
-yeoman = require 'yeoman-generator'
+base = require '../base'
 
-Generator = module.exports = ->
-	yeoman.generators.Base.apply this, arguments
-
-util.inherits Generator, yeoman.generators.Base
-Generator.name = 'Tâmia project generator'
+module.exports = class Generator extends base
+	constructor: (args, options) ->
+		super(args, options)
 
 Generator::tamia = ->
-	console.log 'tamia'
 	done = @async()
 	distUrl = 'https://github.com/sapegin/tamia/archive/master.tar.gz'
 	@tarball distUrl, (path.join @sourceRoot(), 'tamia'), =>
