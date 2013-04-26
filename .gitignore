@@ -1,4 +1,3 @@
 node_modules
 app/templates/tamia
-app/index.coffee
-test
+app/index.js
