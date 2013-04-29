@@ -16,3 +16,7 @@ Generator::tamia = ->
 		@directory 'tamia/tamia', 'tamia/tamia'
 		@directory 'tamia/blocks', 'tamia/blocks'
 		done()
+
+Generator::dependencies = ->
+	@copy 'vendor/modernizr.js', 'vendor/modernizr.js'
+	@installFromBower 'jquery'

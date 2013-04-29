@@ -1,5 +1,5 @@
 node_modules
-framework/templates/tamia
+templates/tamia
 test/temp
 base.js
 /lib

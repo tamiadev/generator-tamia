@@ -42,4 +42,5 @@ Generator::gruntfile = ->
 
 	gf.save()
 
-
+Generator::dependencies = ->
+	@installFromNpm ['grunt', 'matchdep', 'grunt-contrib-stylus', 'grunt-contrib-watch']

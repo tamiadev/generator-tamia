@@ -65,3 +65,9 @@ Generator::isWordpress = ->
 
 Generator::isWordpressTheme = ->
 	(fs.existsSync 'header.php') and (fs.existsSync 'footer.php') and (fs.existsSync 'functions.php')
+
+Generator::installFromBower = (name) ->
+	@bowerInstall name, {save: true}, ->
+
+Generator::installFromNpm = (name) ->
+	@npmInstall name, {'save-dev': true}, ->
