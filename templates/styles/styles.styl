@@ -1,0 +1,40 @@
+// Author: <%= authorName %>, <%= authorUrl %>, <%= (new Date).getFullYear() %>
+
+body {
+	background:bg-color;
+	color:base-color;
+	line-height:1.5;
+	padding:spacer;
+	font-size:16px;
+	if (max-width) {
+		max-width:max-width;
+		margin-left:auto;
+		margin-right:auto;
+	}
+}
+
+
+// Fonts
+
+body { font-family:"Helvetica Neue", Arial, sans-serif; }
+
+
+// Headers: alpha, beta, gamma, delta, epsilon, epsilon
+
+.alpha {
+}
+
+
+// Text
+
+.text {
+	a {
+		@extend .link;
+	}
+
+	p,
+	ul,
+	ol {
+		space(2);
+	}
+}

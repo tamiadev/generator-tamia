@@ -1,3 +1,6 @@
+# Installs/updates latest version of the Tâmia Stylus framework.
+# https://github.com/sapegin/tamia
+
 'use strict'
 
 util = require 'util'
@@ -5,8 +8,6 @@ path = require 'path'
 base = require '../base'
 
 module.exports = class Generator extends base
-	constructor: (args, options) ->
-		super(args, options)
 
 Generator::tamia = ->
 	done = @async()

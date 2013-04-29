@@ -7,9 +7,6 @@ base = require '../base'
 module.exports = class Generator extends base
 	constructor: (args, options) ->
 		super(args, options)
-		@args = args
-		#@on 'end', ->
-			#@installDependencies skipInstall: @options['skip-install']
 
 Generator::askFor = ->
 	done = @async()
