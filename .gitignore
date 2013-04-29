@@ -2,5 +2,5 @@ node_modules
 framework/templates/tamia
 test/temp
 base.js
-lib
+/lib
 /*/index.js
