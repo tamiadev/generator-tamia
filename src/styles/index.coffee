@@ -9,10 +9,6 @@ base = require '../base'
 Gruntfile = require '../lib/gruntfile'
 
 module.exports = class Generator extends base
-	constructor: (args, options) ->
-		super(args, options)
-		htdocs_dir = @preferDir ['htdocs', 'www']
-		@htdocs_prefix = if htdocs_dir then "#{htdocs_dir}/" else ''
 
 Generator::styles = ->
 	@template 'styles/index.styl'
@@ -21,6 +17,7 @@ Generator::styles = ->
 
 Generator::gruntfile = ->
 	gf = new Gruntfile()
+	return  if gf.hasSection 'stylus'
 
 	config =
 		compile:

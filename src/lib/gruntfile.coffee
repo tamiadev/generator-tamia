@@ -16,7 +16,7 @@ module.exports = class Gruntfile
 
 Gruntfile::parse = ->
 	# Sections
-	section_re = /^\t\t(\w+):$/mg
+	section_re = /^\t\t(\w+):/mg
 	@sections = (m[1] while m = section_re.exec @gf)
 
 	# Tasks
@@ -28,8 +28,11 @@ Gruntfile::parse = ->
 Gruntfile::save = ->
 	fs.writeFileSync @filename, @gf, encoding: 'utf8'
 
+Gruntfile::hasSection = (name) ->
+	name in @sections
+
 Gruntfile::addSection = (name, config) ->
-	return  if name in @sections
+	return  if @hasSection name
 	section = {}
 	section[name] = config
 	section = @toCoffee section
@@ -38,20 +41,28 @@ Gruntfile::addSection = (name, config) ->
 Gruntfile::addWatcher = (name, config) ->
 	subsection = {}
 	subsection[name] = config
-	if 'watch' in @sections
-		subsection = @toCoffee subsection, 3
-		@gf = @gf.replace /^\t\twatch:$/m, "\twatch:\n#{subsection}"
+	if @hasSection 'watch'
+		# TODO: check duplicates
+		subsection = @toCoffee subsection, level=3
+		@gf = @gf.replace /^\t\twatch:$/m, "\t\twatch:\n#{subsection}"
 	else
 		@addSection 'watch', subsection
 
-Gruntfile::addTask = (group, task) ->
+Gruntfile::addTask = (group, tasks) ->
 	if @tasks[group]
-		@gf = @gf.replace /(grunt.registerTask '', \[[^\]]*)(\])/g, "$1, '#{task}'$2"
+		m = @gf.match(new RegExp("grunt.registerTask '#{group}', \\\['([^\\\]]*)'"))
+		current_tasks = m[1].split "', '"
+		for task in tasks
+			@gf = @gf.replace new RegExp("(grunt.registerTask '#{group}', \\\[[^\\\]]*)"), "$1, '#{task}'"  unless task in current_tasks
 	else
-		@gf += "\tgrunt.registerTask '#{group}', ['#{task}']\n"
+		tasks_str = "'" + (tasks.join "', '") + "'"
+		@gf += "\tgrunt.registerTask '#{group}', [#{tasks_str}]\n"
+
+Gruntfile::addBanner = (data) ->
+	@addSection 'banner', "/* Author: #{data.authorName}, #{data.authorUrl}, <%= grunt.template.today(\"yyyy\") %> */\\n"
 
 Gruntfile::toCoffee = (js, level=2) ->
-	cs = _jsToCoffeString js, 2
+	cs = _jsToCoffeString js, level
 	cs.replace /\n+$/, ''
 
 Gruntfile::JS = (code) ->

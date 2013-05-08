@@ -15,16 +15,16 @@ module.exports = class Generator extends yeoman.generators.Base
 		# Single folder for all templates
 		@sourceRoot path.join __dirname, 'templates'
 
+		# Check environment
+		htdocs_dir = @preferDir ['htdocs', 'www']
+		@htdocs_prefix = if htdocs_dir then "#{htdocs_dir}/" else ''
+
 		# User data: ~/.config/configstore/yomen-generator.yml
 		# TODO: Ask to fill values if they are default
 		@config = new Configstore 'yomen-generator',
 			authorName: 'John Smith'
 			authorUrl: 'http://example.com'
 		_.extend this, @config.all
-
-		#@on 'end', ->
-		#	@installDependencies skipInstall: @options['skip-install']
-
 
 Generator::ifYes = (prop) ->
 	/y/i.test prop
@@ -46,14 +46,11 @@ Generator::hookFor = (name, config) ->
 
 	this
 
-Generator::writeIfNot = (filepath) ->
-	@copy filepath unless (fs.existsSync filepath)
+Generator::copyIfNot = (filepath) ->
+	@copy filepath, filepath  unless (fs.existsSync filepath)
 
-Generator::writeJsHintRc = ->
-	@writeIfNot '.jshintrc'
-
-Generator::writeEditorConfig = ->
-	@writeIfNot '.editorconfig'
+Generator::copyEditorConfig = ->
+	@copyIfNot '.editorconfig'
 
 Generator::preferDir = (preferred) ->
 	for dir in preferred
@@ -71,3 +68,4 @@ Generator::installFromBower = (name) ->
 
 Generator::installFromNpm = (name) ->
 	@npmInstall name, {'save-dev': true}, ->
+

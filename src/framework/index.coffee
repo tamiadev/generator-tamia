@@ -1,4 +1,5 @@
 # Installs/updates latest version of the Tâmia Stylus framework.
+# Also installs Modernizr and jQuery.
 # https://github.com/sapegin/tamia
 
 'use strict'
@@ -18,5 +19,5 @@ Generator::tamia = ->
 		done()
 
 Generator::dependencies = ->
-	@copy 'vendor/modernizr.js', 'vendor/modernizr.js'
+	@copyIfNot 'vendor/modernizr.js'
 	@installFromBower 'jquery'
