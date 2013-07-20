@@ -1,5 +1,5 @@
-# Scaffolds `styles` direcotory with base Stylus styles.
-# Also installs Tâmia (tamia:framework) and creates/updates Gruntfile.
+# Scaffolds `js` direcotory with base main.js file.
+# Also adds JSHint, Uglify and creates/updates Gruntfile.
 
 'use strict'
 
@@ -55,4 +55,4 @@ Generator::files = ->
 	@copyIfNot '.jshintrc'
 
 Generator::dependencies = ->
-	#@installFromNpm ['grunt', 'matchdep', 'grunt-contrib-jshint', 'grunt-contrib-concat', 'grunt-contrib-uglify', 'grunt-contrib-watch']
+	@installFromNpm ['grunt', 'matchdep', 'grunt-contrib-jshint', 'grunt-contrib-concat', 'grunt-contrib-uglify', 'grunt-contrib-watch']
