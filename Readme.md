@@ -35,7 +35,7 @@ Scaffolds `js` direcotory with base main.js file. Also adds JSHint, Uglify and c
 $ yo tamia:framework --skip-bower
 ```
 
-## `--skip-bower`, `--skip-npm`, `--skip-install`
+### `--skip-bower`, `--skip-npm`, `--skip-install`
 
 Skips installation of Bower packages, npm backages or both.
 

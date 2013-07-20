@@ -14,6 +14,9 @@ module.exports = class Gruntfile
 		else
 			@gf = _template
 
+Gruntfile::log = (text) ->
+	console.log 'Gruntfile:'.green + " #{text}"
+
 Gruntfile::parse = ->
 	# Sections
 	section_re = /^\t\t(\w+):/mg
@@ -37,6 +40,7 @@ Gruntfile::addSection = (name, config) ->
 	section[name] = config
 	section = @toCoffee section
 	@gf = @gf.replace /^\tgrunt.initConfig$/m, "\tgrunt.initConfig\n#{section}"
+	@log "section '#{name}' added"
 
 Gruntfile::addWatcher = (name, config) ->
 	subsection = {}
@@ -47,6 +51,7 @@ Gruntfile::addWatcher = (name, config) ->
 		@gf = @gf.replace /^\t\twatch:$/m, "\t\twatch:\n\t\t\toptions:\n\t\t\t\tlivereload:true\n#{subsection}"
 	else
 		@addSection 'watch', subsection
+	@log "watcher '#{name}' added"
 
 Gruntfile::addTask = (group, tasks) ->
 	if @tasks[group]
@@ -57,9 +62,11 @@ Gruntfile::addTask = (group, tasks) ->
 	else
 		tasks_str = "'" + (tasks.join "', '") + "'"
 		@gf += "\tgrunt.registerTask '#{group}', [#{tasks_str}]\n"
+		@log "task '#{group}' added"
 
 Gruntfile::addBanner = (data) ->
 	@addSection 'banner', "/* Author: #{data.authorName}, #{data.authorUrl}, <%= grunt.template.today(\"yyyy\") %> */\\n"
+	@log "banner added"
 
 Gruntfile::toCoffee = (js, level=2) ->
 	cs = _jsToCoffeString js, level
