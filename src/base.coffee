@@ -11,6 +11,7 @@ module.exports = class Generator extends yeoman.generators.Base
 	constructor: (args, options) ->
 		super(args, options)
 		@args = args
+		@options = options
 
 		# Single folder for all templates
 		@sourceRoot path.join __dirname, 'templates'
@@ -64,8 +65,12 @@ Generator::isWordpressTheme = ->
 	(fs.existsSync 'header.php') and (fs.existsSync 'footer.php') and (fs.existsSync 'functions.php')
 
 Generator::installFromBower = (name) ->
+	return  if @options['skip-bower']
+	return  if @options['skip-install']
 	@bowerInstall name, {save: true}, ->
 
 Generator::installFromNpm = (name) ->
+	return  if @options['skip-npm']
+	return  if @options['skip-install']
 	@npmInstall name, {'save-dev': true}, ->
 

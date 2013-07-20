@@ -13,7 +13,7 @@ Scaffolds out [Tâmia](https://github.com/sapegin/tamia) and lots of other stuff
 ## Sub-generators
 
 ```bash
-$ yo tamia:subgenerator
+$ yo tamia:framework
 ```
 
 ### framework
@@ -26,7 +26,18 @@ Scaffolds `styles` direcotory with base Stylus styles. Also installs Tâmia (tam
 
 ### js
 
-...
+Scaffolds `js` direcotory with base main.js file. Also adds JSHint, Uglify and creates/updates Gruntfile.
+
+
+## Options
+
+```bash
+$ yo tamia:framework --skip-bower
+```
+
+## `--skip-bower`, `--skip-npm`, `--skip-install`
+
+Skips installation of Bower packages, npm backages or both.
 
 
 ---
