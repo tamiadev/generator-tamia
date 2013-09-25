@@ -25,9 +25,9 @@ Generator::gruntfile = ->
 		gf.addSection 'concat',
 			main:
 				src: [
-					"#{@htdocs_prefix}js/utils.js"
-					"tamia/blocks/*/*.js"
-					"tamia/tamia/tamia.js"
+					"#{@htdocs_prefix}tamia/blocks/*/*.js"
+					"#{@htdocs_prefix}tamia/tamia/tamia.js"
+					"#{@htdocs_prefix}js/main.js"
 				]
 				dest: "#{@htdocs_prefix}build/scripts.js"
 
