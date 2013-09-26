@@ -1,5 +1,5 @@
-# Install block.
-# Also adds it to Gruntfile and styles.
+# Installs block.
+# Also adds it to index stylesheet.
 
 'use strict'
 
