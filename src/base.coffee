@@ -6,10 +6,12 @@ util = require 'util'
 _ = require 'lodash'
 Configstore = require 'configstore'
 yeoman = require 'yeoman-generator'
+chalk = require 'chalk'
 
 module.exports = class Generator extends yeoman.generators.Base
 	constructor: (args, options) ->
 		super(args, options)
+
 		@args = args
 		@options = options
 
@@ -20,9 +22,9 @@ module.exports = class Generator extends yeoman.generators.Base
 		htdocs_dir = @preferDir ['htdocs', 'www']
 		@htdocs_prefix = if htdocs_dir then "#{htdocs_dir}/" else ''
 
-		# User data: ~/.config/configstore/yomen-generator.yml
+		# User data: ~/.config/configstore/yeoman-generator.yml
 		# TODO: Ask to fill values if they are default
-		@config = new Configstore 'yomen-generator',
+		@config = new Configstore 'yeoman-generator',
 			authorName: 'John Smith'
 			authorUrl: 'http://example.com'
 		_.extend this, @config.all
@@ -74,3 +76,15 @@ Generator::installFromNpm = (name) ->
 	return  if @options['skip-install']
 	@npmInstall name, {'save-dev': true}, ->
 
+Generator::printList = (list) ->
+	width = @_.reduce list, ((max, row) ->
+		Math.max row[0].length, max
+		), 0
+
+	@_.each list, (row) ->
+		console.log (chalk.white (pad row[0], width)), row[1]
+
+
+pad = (str, width) ->
+	add = Math.max 0, width - str.length
+	str + (Array(add + 1).join ' ')

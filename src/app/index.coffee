@@ -12,6 +12,7 @@ Generator::askFor = ->
 	done = @async()
 	prompts = [
 		name: 'styles'
+		type: 'confirm'
 		message: 'Would you like to use Stylus?'
 		default: 'Y/n'
 		warning: 'Yes: Tâmia and base Stylus files will be placed into the tamia and styles directories.'
