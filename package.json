@@ -16,18 +16,20 @@
     "url": "git://github.com/sapegin/generator-tamia.git"
   },
   "scripts": {
-    "test": "./node_modules/.bin/coffee -o ./ -c src/; ./node_modules/.bin/mocha test/test-*.js",
-    "watch": "./node_modules/.bin/coffee -w -o ./ -c src/",
-    "prepublish": "./node_modules/.bin/coffee -o ./ -c src/"
+    "test": "coffee -o ./ -c src/; mocha test/test-*.js",
+    "watch": "coffee -w -o ./ -c src/",
+    "prepublish": "coffee -o ./ -c src/"
   },
   "dependencies": {
     "yeoman-generator": "~0.10.5",
     "lodash": "~1.2.1",
-    "configstore": "~0.1.2"
+    "configstore": "~0.1.5",
+    "grunt": "~0.4.1",
+    "chalk": "~0.2.1"
   },
   "devDependencies": {
-    "mocha": "~1.9.0",
-    "coffee-script": "~1.6.2"
+    "mocha": "~1.13.0",
+    "coffee-script": "~1.6.3"
   },
   "engines": {
     "node": ">=0.8.0"
