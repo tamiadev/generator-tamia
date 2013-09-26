@@ -3,8 +3,6 @@
 
 'use strict'
 
-util = require 'util'
-path = require 'path'
 base = require '../base'
 Gruntfile = require '../lib/gruntfile'
 
@@ -25,8 +23,9 @@ Generator::gruntfile = ->
 		gf.addSection 'concat',
 			main:
 				src: [
-					"#{@htdocs_prefix}tamia/blocks/*/*.js"
 					"#{@htdocs_prefix}tamia/tamia/tamia.js"
+					"#{@htdocs_prefix}tamia/blocks/*/*.js"
+					"#{@htdocs_prefix}js/components/*.js"
 					"#{@htdocs_prefix}js/main.js"
 				]
 				dest: "#{@htdocs_prefix}build/scripts.js"
@@ -52,6 +51,7 @@ Generator::gruntfile = ->
 	gf.save()
 
 Generator::files = ->
+	@template 'main.js', 'js/main.js'
 	@copyIfNot '.jshintrc'
 
 Generator::dependencies = ->
