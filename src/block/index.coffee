@@ -1,9 +1,9 @@
 # Installs block.
-# Also adds it to index stylesheet.
+# Also updates Gruntfile and index stylesheet.
 
 'use strict'
 
-
+fs = require 'fs'
 grunt = require 'grunt'
 base = require '../base'
 Gruntfile = require '../lib/gruntfile'
@@ -42,15 +42,35 @@ Generator::askFor = ->
 
 		done()
 
-Generator::styles = ->
-	filename = 'styles/index.styl'
-	stylus = grunt.file.read filename
-	return  unless stylus
+Generator::init = ->
+	@blockBase = "tamia/blocks/#{@block}"
 
+Generator::gruntfile = ->
+	return  unless (fs.existsSync "#{@blockBase}/script.js")
+
+	filename = 'Gruntfile.coffee'
+	return  unless (fs.existsSync filename)
+
+	gf = grunt.file.read filename
+	importStr = "'tamia/blocks/#{@block}/script.js'"
+	return  unless (gf.indexOf importStr) is -1
+
+	gf = gf.replace /(\n\t*)('tamia\/tamia\/tamia.js',?)/, '$1$2$1' + importStr
+	grunt.file.write filename, gf
+
+	console.log "File \"#{filename}\" updated."
+
+Generator::styles = ->
+	return  unless (fs.existsSync "#{@blockBase}/index.styl")
+
+	filename = 'styles/index.styl'
+	return  unless (fs.existsSync filename)
+
+	stylus = grunt.file.read filename
 	importStr = "@import \"blocks/#{@block}\";"
-	return  unless stylus.indexOf importStr is -1
+	return  unless (stylus.indexOf importStr) is -1
 
 	stylus = stylus.replace /(@import ['"]tamia['"];?)/, '$1\n' + importStr
 	grunt.file.write filename, stylus
 
-	console.log 'File "styles/index.styl" updated.'
+	console.log "File \"#{filename}\" updated."
