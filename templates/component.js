@@ -4,7 +4,8 @@
 ;(function ($) {
 	'use strict';
 
-	function init(container) {
+	function init(elem) {
+		// var container = $(elem);
 	}
 
 	tamia.initComponents({'<%= name %>': init});
