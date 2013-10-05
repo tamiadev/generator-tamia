@@ -13,7 +13,6 @@ module.exports = class Generator extends base
 Generator::styles = ->
 	@template 'styles/index.styl'
 	@template 'styles/styles.styl'
-	@template 'styles/print.styl'
 
 Generator::gruntfile = ->
 	gf = new Gruntfile()
@@ -27,7 +26,7 @@ Generator::gruntfile = ->
 					DEBUG: gf.JS 'debug'
 				'paths': ['tamia']
 			files: {}
-	config.compile.files[@isWordpressTheme() ? 'style.css' : "#{@htdocs_prefix}build/styles.css"] = 'styles/index.styl'
+	config.compile.files[if @isWordpressTheme() then 'style.css' else "#{@htdocs_prefix}build/styles.css"] = 'styles/index.styl'
 	gf.addSection 'stylus', config
 
 	gf.addWatcher 'stylus',
@@ -41,3 +40,4 @@ Generator::gruntfile = ->
 
 Generator::dependencies = ->
 	@installFromNpm ['grunt', 'matchdep', 'grunt-contrib-stylus', 'grunt-contrib-watch']
+	# @hookFor 'tamia:framework', @args

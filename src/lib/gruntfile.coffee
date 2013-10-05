@@ -2,6 +2,7 @@
 
 fs = require 'fs'
 path = require 'path'
+chalk = require 'chalk'
 _ = require 'lodash'
 
 module.exports = class Gruntfile
@@ -14,8 +15,8 @@ module.exports = class Gruntfile
 		else
 			@gf = _template
 
-Gruntfile::log = (text) ->
-	console.log 'Gruntfile:'.green + " #{text}"
+Gruntfile::writeln = (text) ->
+	console.log (chalk.green 'Gruntfile:') + " #{text}"
 
 Gruntfile::parse = ->
 	# Sections
@@ -40,7 +41,7 @@ Gruntfile::addSection = (name, config) ->
 	section[name] = config
 	section = @toCoffee section
 	@gf = @gf.replace /^\tgrunt.initConfig$/m, "\tgrunt.initConfig\n#{section}"
-	@log "section '#{name}' added"
+	@writeln "section '#{name}' added"
 
 Gruntfile::addWatcher = (name, config) ->
 	subsection = {}
@@ -51,9 +52,10 @@ Gruntfile::addWatcher = (name, config) ->
 		@gf = @gf.replace /^\t\twatch:$/m, "\t\twatch:\n\t\t\toptions:\n\t\t\t\tlivereload:true\n#{subsection}"
 	else
 		@addSection 'watch', subsection
-	@log "watcher '#{name}' added"
+	@writeln "watcher '#{name}' added"
 
 Gruntfile::addTask = (group, tasks) ->
+	tasks = [tasks]  if typeof tasks is 'string'
 	if @tasks[group]
 		m = @gf.match(new RegExp("grunt.registerTask '#{group}', \\\['([^\\\]]*)'"))
 		current_tasks = m[1].split "', '"
@@ -62,11 +64,11 @@ Gruntfile::addTask = (group, tasks) ->
 	else
 		tasks_str = "'" + (tasks.join "', '") + "'"
 		@gf += "\tgrunt.registerTask '#{group}', [#{tasks_str}]\n"
-		@log "task '#{group}' added"
+		@writeln "task '#{group}' added"
 
 Gruntfile::addBanner = (data) ->
 	@addSection 'banner', "/* Author: #{data.authorName}, #{data.authorUrl}, <%= grunt.template.today(\"yyyy\") %> */\\n"
-	@log "banner added"
+	@writeln "banner added"
 
 Gruntfile::toCoffee = (js, level=2) ->
 	cs = _jsToCoffeString js, level
@@ -110,7 +112,7 @@ _jsToCoffeString = (js, level=1, first=true) ->
 			when 'js'
 				s += value.__JS__
 			else
-				console.log "jsToString: unknown type: #{type}"
+				console.log chalk.red "jsToString: unknown type: #{type}"
 		if type isnt 'array' and type isnt 'object'
 			s += '\n'
 			hasComma = true
