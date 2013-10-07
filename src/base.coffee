@@ -6,6 +6,7 @@ util = require 'util'
 _ = require 'lodash'
 Configstore = require 'configstore'
 yeoman = require 'yeoman-generator'
+grunt = require 'grunt'
 chalk = require 'chalk'
 
 module.exports = class Generator extends yeoman.generators.Base
@@ -52,6 +53,11 @@ Generator::hookFor = (name, config) ->
 Generator::copyIfNot = (filepath) ->
 	@copy filepath, filepath  unless (fs.existsSync filepath)
 
+Generator::stopIfExists = (filepath) ->
+	return  unless fs.existsSync filepath
+	grunt.log.error "File \"#{filepath}\" already exists."
+	process.exit()
+
 Generator::copyEditorConfig = ->
 	@copyIfNot '.editorconfig'
 
@@ -81,10 +87,5 @@ Generator::printList = (list) ->
 		Math.max row[0].length, max
 		), 0
 
-	@_.each list, (row) ->
-		console.log (chalk.white (pad row[0], width)), row[1]
-
-
-pad = (str, width) ->
-	add = Math.max 0, width - str.length
-	str + (Array(add + 1).join ' ')
+	@_.each list, (row) =>
+		console.log (chalk.white (@_.pad row[0], width)), row[1]

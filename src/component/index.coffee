@@ -22,5 +22,6 @@ Generator::askFor = ->
 		done()
 
 Generator::files = ->
-	# TODO: check existance
-	@template 'component.js', "js/components/#{@name}.js"
+	filepath = "js/components/#{@name}.js"
+	@stopIfExists filepath
+	@template 'component.js', filepath
