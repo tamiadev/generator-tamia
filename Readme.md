@@ -36,6 +36,14 @@ Creates new JS component.
 
 Installs block. Also updates Gruntfiles and index stylesheet.
 
+## Additional sub-generators
+
+You can use them without Tâmia.
+
+### jqplugin
+
+Creates new jQuery plugin.
+
 
 ## Options
 
