@@ -23,6 +23,9 @@ module.exports = class Generator extends yeoman.generators.Base
 		htdocs_dir = @preferDir ['htdocs', 'www']
 		@htdocs_prefix = if htdocs_dir then "#{htdocs_dir}/" else ''
 
+		# Project name
+		@project = path.basename process.cwd()
+
 		# User data: ~/.config/configstore/yeoman-generator.yml
 		# TODO: Ask to fill values if they are default
 		@config = new Configstore 'yeoman-generator',
@@ -53,6 +56,9 @@ Generator::hookFor = (name, config) ->
 Generator::copyIfNot = (filepath) ->
 	@copy filepath, filepath  unless (fs.existsSync filepath)
 
+Generator::templateIfNot = (filepath) ->
+	@template filepath  unless (fs.existsSync filepath)
+
 Generator::stopIfExists = (filepath) ->
 	return  unless fs.existsSync filepath
 	grunt.log.error "File \"#{filepath}\" already exists."
@@ -72,15 +78,19 @@ Generator::isWordpress = ->
 Generator::isWordpressTheme = ->
 	(fs.existsSync 'header.php') and (fs.existsSync 'footer.php') and (fs.existsSync 'functions.php')
 
-Generator::installFromBower = (name) ->
+Generator::installFromBower = (packages) ->
 	return  if @options['skip-bower']
 	return  if @options['skip-install']
-	@bowerInstall name, {save: true}, ->
+	grunt.log.writeln 'Installing ' + (grunt.log.wordlist packages) + ' from Bower...'
+	@templateIfNot 'bower.json'
+	@bowerInstall packages, {save: true}, ->
 
-Generator::installFromNpm = (name) ->
+Generator::installFromNpm = (packages) ->
 	return  if @options['skip-npm']
 	return  if @options['skip-install']
-	@npmInstall name, {'save-dev': true}, ->
+	grunt.log.writeln 'Installing ' + (grunt.log.wordlist packages) + ' from npm...'
+	@templateIfNot 'package.json'
+	@npmInstall packages, {'save-dev': true}, ->
 
 Generator::printList = (list) ->
 	width = @_.reduce list, ((max, row) ->

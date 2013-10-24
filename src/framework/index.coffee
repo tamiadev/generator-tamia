@@ -19,5 +19,4 @@ Generator::tamia = ->
 		done()
 
 Generator::dependencies = ->
-	@copyIfNot 'vendor/modernizr.js'
 	@installFromBower 'jquery'
