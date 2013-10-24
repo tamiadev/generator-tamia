@@ -18,7 +18,7 @@ $ yo tamia:framework
 
 ### framework
 
-Installs/updates latest version of the [Tâmia](https://github.com/sapegin/tamia) Stylus framework. Also installs Modernizr and jQuery.
+Installs/updates latest version of the [Tâmia](https://github.com/sapegin/tamia) Stylus framework. Also installs jQuery.
 
 ### styles
 

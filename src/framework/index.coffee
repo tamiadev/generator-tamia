@@ -1,5 +1,5 @@
 # Installs/updates latest version of the Tâmia Stylus framework.
-# Also installs Modernizr and jQuery.
+# Also installs jQuery.
 # https://github.com/sapegin/tamia
 
 'use strict'
