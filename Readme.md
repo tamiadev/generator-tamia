@@ -28,6 +28,10 @@ Scaffolds `styles` direcotory with base Stylus styles. Also installs Tâmia (tam
 
 Scaffolds `js` direcotory with base main.js file. Also adds JSHint, Uglify and creates/updates Gruntfile.
 
+### html
+
+Creates new HTML file.
+
 ### modernizr
 
 Adds Modernizr to project. Also updates Gruntfile.

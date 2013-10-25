@@ -59,10 +59,13 @@ Generator::copyIfNot = (filepath) ->
 Generator::templateIfNot = (filepath) ->
 	@template filepath  unless (fs.existsSync filepath)
 
+Generator::stop = (message) ->
+	grunt.log.error message
+	process.exit()
+
 Generator::stopIfExists = (filepath) ->
 	return  unless fs.existsSync filepath
-	grunt.log.error "File \"#{filepath}\" already exists."
-	process.exit()
+	@stop "File \"#{filepath}\" already exists."
 
 Generator::copyEditorConfig = ->
 	@copyIfNot '.editorconfig'
@@ -99,3 +102,6 @@ Generator::printList = (list) ->
 
 	@_.each list, (row) =>
 		console.log (chalk.white (@_.pad row[0], width)), row[1]
+
+Generator::readJsonFile = (filepath) ->
+	JSON.parse(@readFileAsString(filepath))
