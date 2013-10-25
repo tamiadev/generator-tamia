@@ -17,22 +17,30 @@ Generator::gruntfile = ->
 		gf.addSection 'jshint',
 			options:
 				jshintrc: '.jshintrc'
-			files: ["#{@htdocs_prefix}js/mylibs/*.js", "#{@htdocs_prefix}js/*.js"]
+			files: [
+				"#{@htdocs_prefix}js/components/*.js",
+				"#{@htdocs_prefix}js/*.js"
+			]
 
-	unless gf.hasSection 'concat'
-		gf.addSection 'concat',
+	unless gf.hasSection 'traceur_build'
+		gf.addSection 'traceur_build',
+			options:
+				blockBinding: true
+				freeVariableChecker: false
 			main:
 				src: [
+					"#{@htdocs_prefix}tamia/tamia/traceur-rt-light.js"
 					"#{@htdocs_prefix}tamia/tamia/tamia.js"
+					"#{@htdocs_prefix}tamia/tamia/component.js"
 					"#{@htdocs_prefix}tamia/blocks/*/*.js"
 					"#{@htdocs_prefix}js/components/*.js"
 					"#{@htdocs_prefix}js/main.js"
 				]
-				dest: "#{@htdocs_prefix}build/scripts.js"
+				dest: "#{@htdocs_prefix}build/script.js"
 
-		gf.addWatcher 'concat',
-			files: '<%= concat.main.src %>'
-			tasks: 'concat'
+		gf.addWatcher 'traceur_build',
+			files: '<%= traceur_build.main.src %>'
+			tasks: 'traceur_build'
 
 	unless gf.hasSection 'uglify'
 		gf.addSection 'uglify',
@@ -43,10 +51,10 @@ Generator::gruntfile = ->
 						global_defs:
 							DEBUG: gf.JS 'debug'
 				files:
-					'<%= concat.main.dest %>': '<%= concat.main.dest %>'
+					'<%= traceur_build.main.dest %>': '<%= traceur_build.main.dest %>'
 
-	gf.addTask 'default', ['jshint', 'concat', 'uglify']
-	gf.addTask 'deploy', ['concat', 'uglify']
+	gf.addTask 'default', ['jshint', 'traceur_build', 'uglify']
+	gf.addTask 'deploy', ['traceur_build', 'uglify']
 
 	gf.save()
 
@@ -55,4 +63,4 @@ Generator::files = ->
 	@copyIfNot '.jshintrc'
 
 Generator::dependencies = ->
-	@installFromNpm ['grunt', 'matchdep', 'grunt-contrib-jshint', 'grunt-contrib-concat', 'grunt-contrib-uglify', 'grunt-contrib-watch']
+	@installFromNpm ['grunt', 'matchdep', 'grunt-contrib-jshint', 'grunt-traceur-build', 'grunt-contrib-uglify', 'grunt-contrib-watch']
