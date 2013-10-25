@@ -18,26 +18,37 @@ Generator::gruntfile = ->
 	gf = new Gruntfile()
 	return  if gf.hasSection 'stylus'
 
+	buildCss = if @isWordpressTheme() then 'style.css' else "#{@htdocs_prefix}build/styles.css"
+
+	# Stylus
 	config =
+		options:
+			'include css': true
+			'urlfunc': 'embedurl'
+			'define':
+				DEBUG: gf.JS 'debug'
+			'paths': ['tamia']
+			'use': [gf.JS "() -> (require 'autoprefixer-stylus')('last 2 versions', 'ie 8')"]
 		compile:
-			options:
-				'include css': true
-				'define':
-					DEBUG: gf.JS 'debug'
-				'paths': ['tamia']
 			files: {}
-	config.compile.files[if @isWordpressTheme() then 'style.css' else "#{@htdocs_prefix}build/styles.css"] = 'styles/index.styl'
+	config.compile.files[buildCss] = 'styles/index.styl'
 	gf.addSection 'stylus', config
+
+	# CSSO
+	# TODO: Temporary solution because of
+	config =
+		files: {}
+	config.files[buildCss] = buildCss
+	gf.addSection 'csso', config
 
 	gf.addWatcher 'stylus',
 		files: 'styles/**'
 		tasks: 'stylus'
 
-	gf.addTask 'default', 'stylus'
-	gf.addTask 'deploy', 'stylus'
+	gf.addTask 'default', ['stylus', 'csso']
+	gf.addTask 'deploy', ['stylus', 'csso']
 
 	gf.save()
 
 Generator::dependencies = ->
-	@installFromNpm ['grunt', 'matchdep', 'grunt-contrib-stylus', 'grunt-contrib-watch']
-	# @hookFor 'tamia:framework', @args
+	@installFromNpm ['grunt', 'matchdep', 'grunt-contrib-stylus', 'grunt-contrib-watch', 'grunt-csso', 'autoprefixer-stylus']
