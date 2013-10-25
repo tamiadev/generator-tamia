@@ -16,7 +16,18 @@ Generator::askFor = ->
 			type: 'confirm'
 			message: 'Would you like to use Stylus?'
 			default: 'Y/n'
-			warning: 'Yes: Tâmia and base Stylus files will be placed into the tamia and styles directories.'
+		},
+		{
+			name: 'js'
+			type: 'confirm'
+			message: 'Would you like to use JavaScript?'
+			default: 'Y/n'
+		}
+		{
+			name: 'modernizr'
+			type: 'confirm'
+			message: 'Would you like to use Modernizr?'
+			default: 'Y/n'
 		}
 	]
 
@@ -24,11 +35,15 @@ Generator::askFor = ->
 		return (@emit 'error', err)  if err
 
 		@styles = @ifYes props.styles
+		@js = @ifYes props.js
+		@modernizr = @ifYes props.modernizr
 
 		done()
 
 
 Generator::all = ->
 	args = @args
+	(@hookFor 'tamia:framework', args)
 	(@hookFor 'tamia:styles', args)  if @styles
+	(@hookFor 'tamia:modernizr', args)  if @modernizr
 
