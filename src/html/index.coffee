@@ -44,7 +44,7 @@ Generator::files = ->
 			else
 				@jqueryPath = "http://ajax.googleapis.com/ajax/libs/jquery/#{jqueryVer}/jquery.min.js"
 
-		console.log()
+		@log.writeln()
 		@template 'html.html', filepath
 		fs.unlinkSync bowerJson  unless @localJquery
 		done()

@@ -2,8 +2,8 @@
 
 fs = require 'fs'
 path = require 'path'
+util = require 'util'
 chalk = require 'chalk'
-_ = require 'lodash'
 
 module.exports = class Gruntfile
 	constructor: (@filename='Gruntfile.coffee') ->
@@ -19,7 +19,7 @@ Gruntfile::writeln = (text) ->
 	console.log (chalk.green 'Gruntfile:') + " #{text}"
 
 Gruntfile::parse = ->
-	# Sections
+	# Sections.
 	section_re = /^\t\t(\w+):/mg
 	@sections = (m[1] while m = section_re.exec @gf)
 
@@ -87,7 +87,7 @@ CoffeScript syntax.
 @return {String}
 ###
 _jsToCoffeString = (js, level=1, first=true) ->
-	array = _.isArray js
+	array = util.isArray js
 	has = false
 	hasComma = false
 	s = if array then '[\n' else (if first then '' else '\n')

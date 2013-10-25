@@ -22,7 +22,6 @@
   },
   "dependencies": {
     "yeoman-generator": "~0.10.5",
-    "lodash": "~1.2.1",
     "configstore": "~0.1.5",
     "grunt": "~0.4.1",
     "chalk": "~0.2.1"

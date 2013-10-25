@@ -33,6 +33,10 @@ module.exports = class Generator extends yeoman.generators.Base
 			authorUrl: 'http://example.com'
 		_.extend this, @config.all
 
+		# Expose useful libraries
+		@grunt = grunt
+		@chalk = chalk
+
 Generator::ifYes = (prop) ->
 	/y/i.test prop
 
@@ -60,12 +64,15 @@ Generator::templateIfNot = (filepath) ->
 	@template filepath  unless (fs.existsSync filepath)
 
 Generator::stop = (message) ->
-	grunt.log.error message
+	@grunt.log.error message
 	process.exit()
 
 Generator::stopIfExists = (filepath) ->
 	return  unless fs.existsSync filepath
 	@stop "File \"#{filepath}\" already exists."
+
+Generator::writeFile = (filepath, content) ->
+	fs.writeFileSync (path.join process.cwd(), filepath), content
 
 Generator::copyEditorConfig = ->
 	@copyIfNot '.editorconfig'
@@ -84,14 +91,16 @@ Generator::isWordpressTheme = ->
 Generator::installFromBower = (packages) ->
 	return  if @options['skip-bower']
 	return  if @options['skip-install']
-	grunt.log.writeln 'Installing ' + (grunt.log.wordlist packages) + ' from Bower...'
+	@log.writeln 'Installing ' + (@grunt.log.wordlist packages) + ' from Bower...'
+	@gitIgnore 'bower_components'
 	@templateIfNot 'bower.json'
 	@bowerInstall packages, {save: true}, ->
 
 Generator::installFromNpm = (packages) ->
 	return  if @options['skip-npm']
 	return  if @options['skip-install']
-	grunt.log.writeln 'Installing ' + (grunt.log.wordlist packages) + ' from npm...'
+	@log.writeln 'Installing ' + (@grunt.log.wordlist packages) + ' from npm...'
+	@gitIgnore 'node_modules'
 	@templateIfNot 'package.json'
 	@npmInstall packages, {'save-dev': true}, ->
 
@@ -101,7 +110,21 @@ Generator::printList = (list) ->
 		), 0
 
 	@_.each list, (row) =>
-		console.log (chalk.white (@_.pad row[0], width)), row[1]
+		@log.writeln (@chalk.white (@_.pad row[0], width)), row[1]
 
 Generator::readJsonFile = (filepath) ->
 	JSON.parse(@readFileAsString(filepath))
+
+Generator::gitIgnore = (pattern) ->
+	filepath = '.gitignore'
+	if fs.existsSync filepath
+		ignores = (@readFileAsString filepath).split '\n'
+	else
+		ignores = []
+
+	return  if pattern in ignores
+
+	ignores.push pattern
+	@writeFile filepath, (ignores.join '\n')
+
+	@log.writeln "\"#{pattern}\" added to .gitignore."
