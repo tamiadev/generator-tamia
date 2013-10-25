@@ -1,7 +1,7 @@
 {
   "name": "generator-tamia",
   "version": "0.0.2",
-  "description": "Scaffolds out Tâmia with lots of other stuff.",
+  "description": "Scaffolds out Tâmia with lots of other front-end stuff.",
   "keywords": [],
   "homepage": "https://github.com/sapegin/generator-tamia",
   "bugs": "https://github.com/sapegin/generator-tamia/issues",
@@ -10,7 +10,7 @@
     "email": "artem@sapegin.ru",
     "url": "http://sapegin.me"
   },
-  "main": "app/index.coffee",
+  "main": "app/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/sapegin/generator-tamia.git"
