@@ -22,6 +22,12 @@ Generator::gruntfile = ->
 				"#{@htdocs_prefix}js/*.js"
 			]
 
+	unless gf.hasSection 'bower'
+		gf.addSection 'bower',
+			main:
+				dest: "#{@htdocs_prefix}build/_bower.js"
+				exclude: 'jquery'
+
 	unless gf.hasSection 'traceur_build'
 		gf.addSection 'traceur_build',
 			options:
@@ -29,6 +35,7 @@ Generator::gruntfile = ->
 				freeVariableChecker: false
 			main:
 				src: [
+					'<%= bower.main.dest %>'
 					"#{@htdocs_prefix}tamia/tamia/traceur-rt-light.js"
 					"#{@htdocs_prefix}tamia/tamia/tamia.js"
 					"#{@htdocs_prefix}tamia/tamia/component.js"
@@ -63,4 +70,4 @@ Generator::files = ->
 	@copyIfNot '.jshintrc'
 
 Generator::dependencies = ->
-	@installFromNpm ['grunt', 'matchdep', 'grunt-contrib-jshint', 'grunt-traceur-build', 'grunt-contrib-uglify', 'grunt-contrib-watch']
+	@installFromNpm ['grunt', 'matchdep', 'grunt-contrib-jshint', 'grunt-traceur-build', 'grunt-contrib-uglify', 'grunt-contrib-watch', 'grunt-bower-concat']
