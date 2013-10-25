@@ -19,4 +19,4 @@ Generator::tamia = ->
 		done()
 
 Generator::dependencies = ->
-	@installFromBower 'jquery'
+	@installFromBower ['jquery']
