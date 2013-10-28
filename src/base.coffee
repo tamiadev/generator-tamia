@@ -3,7 +3,6 @@
 path = require 'path'
 fs = require 'fs'
 util = require 'util'
-_ = require 'lodash'
 Configstore = require 'configstore'
 yeoman = require 'yeoman-generator'
 grunt = require 'grunt'
@@ -31,7 +30,7 @@ module.exports = class Generator extends yeoman.generators.Base
 		@config = new Configstore 'yeoman-generator',
 			authorName: 'John Smith'
 			authorUrl: 'http://example.com'
-		_.extend this, @config.all
+		@_.extend this, @config.all
 
 		# Expose useful libraries
 		@grunt = grunt
@@ -53,7 +52,7 @@ Generator::hookFor = (name, config) ->
 		desc: @_.humanize(name) + ' to be invoked'
 		defaults: @options[name] or ''
 
-	@_hooks.push (_.defaults config, name: name)
+	@_hooks.push (@_.defaults config, name: name)
 
 	this
 
