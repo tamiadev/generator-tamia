@@ -10,13 +10,12 @@
  * @license MIT
  */
 
-/*jshint browser:true, jquery:true, white:false, smarttabs:true, eqeqeq:true,
-         immed:true, latedef:false, newcap:true, undef:true */
 /*global define:false*/
 ;(function(factory) {  // Try to register as an anonymous AMD module
 	if (typeof define === 'function' && define.amd) {
 		define(['jquery'], factory);
-	} else {
+	}
+	else {
 		factory(jQuery);
 	}
 }(function($) {
