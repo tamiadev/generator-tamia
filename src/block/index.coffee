@@ -18,10 +18,10 @@ Generator::showList = ->
 
 	@blocks = @_.pluck blocks, 0
 
-	@log.writeln ''
+	@log ''
 	@grunt.log.subhead 'Available blocks:'
 	@printList blocks
-	@log.writeln ''
+	@log ''
 
 Generator::askFor = ->
 	done = @async()
@@ -36,7 +36,7 @@ Generator::askFor = ->
 		@block = props.name
 
 		if @block not in @blocks
-			@grunt.log.error "Block \"#{@block}\" not found."
+			@error "Block `#{@block}` not found."
 			process.exit()
 
 		done()
@@ -57,7 +57,7 @@ Generator::gruntfile = ->
 	gf = gf.replace /(\n\t*)('tamia\/tamia\/tamia.js',?)/, '$1$2$1' + importStr
 	@writeFile filename, gf
 
-	@log.writeln "File \"#{filename}\" updated."
+	@log "File `#{filename}` updated."
 
 Generator::styles = ->
 	return  unless (fs.existsSync "#{@blockBase}/index.styl")
@@ -65,11 +65,11 @@ Generator::styles = ->
 	filename = 'styles/index.styl'
 	return  unless (fs.existsSync filename)
 
-	stylus = grunt.file.read filename
+	stylus = @grunt.file.read filename
 	importStr = "@import \"blocks/#{@block}\";"
 	return  unless (stylus.indexOf importStr) is -1
 
 	stylus = stylus.replace /(@import ['"]tamia['"];?)/, '$1\n' + importStr
 	@writeFile filename, stylus
 
-	@log.writeln "File \"#{filename}\" updated."
+	@log "File `#{filename}` updated."

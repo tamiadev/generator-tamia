@@ -63,7 +63,7 @@ Generator::templateIfNot = (filepath) ->
 	@template filepath  unless (fs.existsSync filepath)
 
 Generator::stop = (message) ->
-	@grunt.log.error message
+	@error message
 	process.exit()
 
 Generator::stopIfExists = (filepath) ->
@@ -90,7 +90,7 @@ Generator::isWordpressTheme = ->
 Generator::installFromBower = (packages) ->
 	return  if @options['skip-bower']
 	return  if @options['skip-install']
-	@log.writeln 'Installing ' + (@grunt.log.wordlist packages) + ' from Bower...'
+	@log 'Installing ' + (@grunt.log.wordlist packages) + ' from Bower...'
 	@gitIgnore 'bower_components'
 	@templateIfNot 'bower.json'
 	@bowerInstall packages, {save: true}, ->
@@ -98,10 +98,23 @@ Generator::installFromBower = (packages) ->
 Generator::installFromNpm = (packages) ->
 	return  if @options['skip-npm']
 	return  if @options['skip-install']
-	@log.writeln 'Installing ' + (@grunt.log.wordlist packages) + ' from npm...'
+	@log 'Installing ' + (@grunt.log.wordlist packages) + ' from npm...'
 	@gitIgnore 'node_modules'
 	@templateIfNot 'package.json'
 	@npmInstall packages, {'save-dev': true}, ->
+
+Generator::printLog = (func, message...) ->
+	colorize = (m) ->
+		m.replace(/`(.*?)`/g, (m, s) -> chalk.cyan(s))
+
+	message = @_.map message, colorize
+	@grunt.log[func] message...
+
+Generator::log = () ->
+	@printLog 'writeln', arguments...
+
+Generator::error = () ->
+	@printLog 'error', arguments...
 
 Generator::printList = (list) ->
 	width = @_.reduce list, ((max, row) ->
@@ -109,7 +122,7 @@ Generator::printList = (list) ->
 		), 0
 
 	@_.each list, (row) =>
-		@log.writeln (@chalk.white (@_.pad row[0], width)), row[1]
+		@log (@chalk.white(@_.pad row[0], width)), row[1]
 
 Generator::readJsonFile = (filepath) ->
 	JSON.parse(@readFileAsString(filepath))
@@ -126,4 +139,4 @@ Generator::gitIgnore = (pattern) ->
 	ignores.push pattern
 	@writeFile filepath, (ignores.join '\n')
 
-	@log.writeln "\"#{pattern}\" added to .gitignore."
+	@log "`#{pattern}` added to .gitignore."

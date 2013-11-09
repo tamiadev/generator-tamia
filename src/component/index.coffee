@@ -11,17 +11,18 @@ Generator::askFor = ->
 	prompts = [
 		name: 'name'
 		message: 'Component name'
-		default: 'main'
 	]
 
 	@prompt prompts, (err, props) =>
 		return (@emit 'error', err)  if err
 
 		@name = @_.dasherize props.name
+		@cls = @_.classify props.name
+		@filename = (props.name.replace /[^a-z]/ig, '').toLowerCase()
 
 		done()
 
 Generator::files = ->
-	filepath = "js/components/#{@name}.js"
+	filepath = "js/components/#{@filename}.js"
 	@stopIfExists filepath
 	@template 'component.js', filepath

@@ -1,13 +1,13 @@
 /* Author: <%= authorName %>, <%= authorUrl %>, <%= (new Date).getFullYear() %> */
 
-/*global tamia:false */
 ;(function ($) {
 	'use strict';
 
-	function init(elem) {
-		// var container = $(elem);
+	class <%= cls %> extends Component {
+		init() {
+		}
 	}
 
-	tamia.initComponents({'<%= name %>': init});
+	tamia.initComponents({'<%= name %>': <%= cls %>});
 
 }(jQuery));
