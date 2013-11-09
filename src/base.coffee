@@ -103,12 +103,12 @@ Generator::installFromNpm = (packages) ->
 	@templateIfNot 'package.json'
 	@npmInstall packages, {'save-dev': true}, ->
 
-Generator::printLog = (func, message...) ->
-	colorize = (m) ->
-		m.replace(/`(.*?)`/g, (m, s) -> chalk.cyan(s))
+Generator::printLog = (func, messages...) ->
+	colorize = (msg) ->
+		msg.replace(/`(.*?)`/g, (m, str) -> chalk.cyan(str))
 
-	message = @_.map message, colorize
-	@grunt.log[func] message...
+	messages = @_.map messages, colorize
+	@grunt.log[func] messages...
 
 Generator::log = () ->
 	@printLog 'writeln', arguments...
