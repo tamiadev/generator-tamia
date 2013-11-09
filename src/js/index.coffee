@@ -22,11 +22,14 @@ Generator::gruntfile = ->
 				"#{@htdocs_prefix}js/*.js"
 			]
 
-	unless gf.hasSection 'bower'
-		gf.addSection 'bower',
+	unless gf.hasSection 'bower_concat'
+		gf.addSection 'bower_concat',
 			main:
 				dest: "#{@htdocs_prefix}build/_bower.js"
-				exclude: 'jquery'
+				exclude: [
+					'jquery'
+					'modernizr'
+				]
 
 	unless gf.hasSection 'traceur_build'
 		gf.addSection 'traceur_build',
@@ -35,7 +38,7 @@ Generator::gruntfile = ->
 				freeVariableChecker: false
 			main:
 				src: [
-					'<%= bower.main.dest %>'
+					'<%= bower_concat.main.dest %>'
 					"#{@htdocs_prefix}tamia/tamia/traceur-rt-light.js"
 					"#{@htdocs_prefix}tamia/tamia/tamia.js"
 					"#{@htdocs_prefix}tamia/tamia/component.js"
@@ -43,7 +46,7 @@ Generator::gruntfile = ->
 					"#{@htdocs_prefix}js/components/*.js"
 					"#{@htdocs_prefix}js/main.js"
 				]
-				dest: "#{@htdocs_prefix}build/script.js"
+				dest: "#{@htdocs_prefix}build/scripts.js"
 
 		gf.addWatcher 'traceur_build',
 			files: '<%= traceur_build.main.src %>'

@@ -20,16 +20,22 @@ Generator::gruntfile = ->
 
 	buildCss = if @isWordpressTheme() then 'style.css' else "#{@htdocs_prefix}build/styles.css"
 
+	gf.addBanner this
+
 	# Stylus
 	unless gf.hasSection 'stylus'
 		config =
 			options:
 				'include css': true
 				'urlfunc': 'embedurl'
+				'banner': '<%= banner %>'
 				'define':
 					DEBUG: gf.JS 'debug'
 				'paths': ['tamia']
-				'use': [gf.JS "() -> (require 'autoprefixer-stylus')('last 2 versions', 'ie 8')"]
+				'use': [
+					gf.JS "() -> (require 'autoprefixer-stylus')('last 2 versions', 'ie 8', 'ie 9')"
+					gf.JS "debug or (require 'csso-stylus')"
+				]
 			compile:
 				files: {}
 		config.compile.files[buildCss] = 'styles/index.styl'
@@ -39,22 +45,10 @@ Generator::gruntfile = ->
 			files: 'styles/**'
 			tasks: 'stylus'
 
-	# CSSO
-	# TODO: Temporary solution because of https://github.com/LearnBoost/stylus/issues/1137
-	unless gf.hasSection 'csso'
-		gf.addBanner this
-
-		config =
-			options:
-				banner: '<%= banner %>'
-			files: {}
-		config.files[buildCss] = buildCss
-		gf.addSection 'csso', config
-
-	gf.addTask 'default', ['stylus', 'csso']
-	gf.addTask 'deploy', ['stylus', 'csso']
+	gf.addTask 'default', ['stylus']
+	gf.addTask 'deploy', ['stylus']
 
 	gf.save()
 
 Generator::dependencies = ->
-	@installFromNpm ['grunt', 'matchdep', 'grunt-contrib-stylus', 'grunt-contrib-watch', 'grunt-csso', 'autoprefixer-stylus']
+	@installFromNpm ['grunt', 'matchdep', 'grunt-contrib-stylus', 'grunt-contrib-watch', 'autoprefixer-stylus', 'csso-stylus']
