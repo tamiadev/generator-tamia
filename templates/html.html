@@ -13,8 +13,13 @@
 </head>
 <body>
 
+	<!--[if lt IE 9]>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<![endif]-->
+	<!--[if gte IE 9]><!-->
 	<script src="<%= jqueryPath %>"></script><% if (localJquery) { %>
 	<script>!window.jQuery && document.write(unescape('%3Cscript src="bower_components/jquery/jquery.min.js"%3E%3C/script%3E'))</script><% } %>
+	<!--<![endif]-->
 	<script src="build/scripts.js"></script>
 </body>
 </html>
