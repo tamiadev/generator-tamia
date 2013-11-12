@@ -73,4 +73,4 @@ Generator::files = ->
 	@copyIfNot '.jshintrc'
 
 Generator::dependencies = ->
-	@installFromNpm ['grunt', 'matchdep', 'grunt-contrib-jshint', 'grunt-traceur-build', 'grunt-contrib-uglify', 'grunt-contrib-watch', 'grunt-bower-concat']
+	@installFromNpm ['grunt', 'load-grunt-tasks', 'grunt-contrib-jshint', 'grunt-traceur-build', 'grunt-contrib-uglify', 'grunt-contrib-watch', 'grunt-bower-concat']

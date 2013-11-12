@@ -131,7 +131,7 @@ _template = """# gruntjs.com
 module.exports = (grunt) ->
 	'use strict'
 
-	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
+	require('load-grunt-tasks')(grunt)
 
 	debug = !!grunt.option('debug')
 

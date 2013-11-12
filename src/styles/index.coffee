@@ -51,4 +51,4 @@ Generator::gruntfile = ->
 	gf.save()
 
 Generator::dependencies = ->
-	@installFromNpm ['grunt', 'matchdep', 'grunt-contrib-stylus', 'grunt-contrib-watch', 'autoprefixer-stylus', 'csso-stylus']
+	@installFromNpm ['grunt', 'load-grunt-tasks', 'grunt-contrib-stylus', 'grunt-contrib-watch', 'autoprefixer-stylus', 'csso-stylus']
