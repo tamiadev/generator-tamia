@@ -36,6 +36,10 @@ Adds Modernizr to project. Also updates Gruntfile.
 
 Adds `imagemin` and `svgmin` tasks to Gruntfile.
 
+### deploy
+
+Configures deploy using [shipit](https://github.com/sapegin/shipit).
+
 ### component
 
 Creates new JS component.
