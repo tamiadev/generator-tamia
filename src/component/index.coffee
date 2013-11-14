@@ -26,3 +26,4 @@ Generator::files = ->
 	filepath = "js/components/#{@filename}.js"
 	@stopIfExists filepath
 	@template 'component.js', filepath
+	@openInEditor filepath

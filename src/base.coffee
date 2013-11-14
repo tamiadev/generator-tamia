@@ -3,6 +3,7 @@
 path = require 'path'
 fs = require 'fs'
 util = require 'util'
+exec = (require 'child_process').exec
 Configstore = require 'configstore'
 yeoman = require 'yeoman-generator'
 grunt = require 'grunt'
@@ -140,3 +141,7 @@ Generator::gitIgnore = (pattern) ->
 	@writeFile filepath, (ignores.join '\n')
 
 	@log "`#{pattern}` added to .gitignore."
+
+Generator::openInEditor = (filepath) ->
+	done = @async()
+	exec "$EDITOR '#{filepath}'", done
