@@ -18,10 +18,10 @@ Generator::showList = ->
 
 	@blocks = @_.pluck blocks, 0
 
-	@log ''
+	@echo ''
 	@grunt.log.subhead 'Available blocks:'
 	@printList blocks
-	@log ''
+	@echo ''
 
 Generator::askFor = ->
 	done = @async()
@@ -57,7 +57,7 @@ Generator::gruntfile = ->
 	gf = gf.replace /(\n\t*)('tamia\/tamia\/tamia.js',?)/, '$1$2$1' + importStr
 	@writeFile filename, gf
 
-	@log "File `#{filename}` updated."
+	@echo "File `#{filename}` updated."
 
 Generator::styles = ->
 	return  unless (fs.existsSync "#{@blockBase}/index.styl")
@@ -72,4 +72,4 @@ Generator::styles = ->
 	stylus = stylus.replace /(@import ['"]tamia['"];?)/, '$1\n' + importStr
 	@writeFile filename, stylus
 
-	@log "File `#{filename}` updated."
+	@echo "File `#{filename}` updated."

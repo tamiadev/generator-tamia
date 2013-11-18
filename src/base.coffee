@@ -91,7 +91,7 @@ Generator::isWordpressTheme = ->
 Generator::installFromBower = (packages) ->
 	return  if @options['skip-bower']
 	return  if @options['skip-install']
-	@log 'Installing ' + (@grunt.log.wordlist packages) + ' from Bower...'
+	@echo 'Installing ' + (@grunt.log.wordlist packages) + ' from Bower...'
 	@gitIgnore 'bower_components'
 	@templateIfNot 'bower.json'
 	@bowerInstall packages, {save: true}, ->
@@ -99,7 +99,7 @@ Generator::installFromBower = (packages) ->
 Generator::installFromNpm = (packages) ->
 	return  if @options['skip-npm']
 	return  if @options['skip-install']
-	@log 'Installing ' + (@grunt.log.wordlist packages) + ' from npm...'
+	@echo 'Installing ' + (@grunt.log.wordlist packages) + ' from npm...'
 	@gitIgnore 'node_modules'
 	@templateIfNot 'package.json'
 	@npmInstall packages, {'save-dev': true}, ->
@@ -111,7 +111,7 @@ Generator::printLog = (func, messages...) ->
 	messages = @_.map messages, colorize
 	@grunt.log[func] messages...
 
-Generator::log = () ->
+Generator::echo = () ->
 	@printLog 'writeln', arguments...
 
 Generator::error = () ->
@@ -123,7 +123,7 @@ Generator::printList = (list) ->
 		), 0
 
 	@_.each list, (row) =>
-		@log (@chalk.white(@_.pad row[0], width)), row[1]
+		@echo (@chalk.white(@_.pad row[0], width)), row[1]
 
 Generator::readJsonFile = (filepath) ->
 	JSON.parse(@readFileAsString(filepath))
@@ -140,7 +140,7 @@ Generator::gitIgnore = (pattern) ->
 	ignores.push pattern
 	@writeFile filepath, (ignores.join '\n')
 
-	@log "`#{pattern}` added to .gitignore."
+	@echo "`#{pattern}` added to .gitignore."
 
 Generator::openInEditor = (filepath) ->
 	done = @async()
