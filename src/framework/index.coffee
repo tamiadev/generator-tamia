@@ -4,11 +4,15 @@
 
 'use strict'
 
+fs = require 'fs'
 util = require 'util'
 path = require 'path'
 base = require '../base'
 
 module.exports = class Generator extends base
+
+Generator::checkUpdate = ->
+	@update = fs.existsSync 'tamia'
 
 Generator::tamia = ->
 	done = @async()
@@ -16,7 +20,8 @@ Generator::tamia = ->
 	@tarball distUrl, (path.join @sourceRoot(), 'tamia'), =>
 		@directory 'tamia/tamia', 'tamia/tamia'
 		@directory 'tamia/blocks', 'tamia/blocks'
+		@directory 'tamia/vendor', 'tamia/vendor'
 		done()
 
 Generator::dependencies = ->
-	@installFromBower ['jquery']
+	@installFromBower ['jquery'], @update

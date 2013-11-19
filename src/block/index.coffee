@@ -54,7 +54,7 @@ Generator::gruntfile = ->
 	importStr = "'tamia/blocks/#{@block}/script.js'"
 	return  unless (gf.indexOf importStr) is -1
 
-	gf = gf.replace /(\n\t*)('tamia\/tamia\/tamia.js',?)/, '$1$2$1' + importStr
+	gf = gf.replace /(\n\t*)('tamia\/tamia\/component.js',?)/, '$1$2$1' + importStr
 	@writeFile filename, gf
 
 	@echo "File `#{filename}` updated."

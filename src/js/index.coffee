@@ -13,14 +13,16 @@ Generator::gruntfile = ->
 
 	gf.addBanner this
 
-	unless gf.hasSection 'jshint'
-		gf.addSection 'jshint',
+	unless gf.hasSection 'coffeelint'
+		gf.addSection 'coffeelint',
 			options:
-				jshintrc: '.jshintrc'
-			files: [
-				"#{@htdocs_prefix}js/components/*.js",
-				"#{@htdocs_prefix}js/*.js"
-			]
+				no_tabs: level: 'ignore'
+				indentation: level: 'ignore'
+				max_line_length: level: 'ignore'
+				arrow_spacing: level: 'error'
+				no_empty_param_list: level: 'error'
+				no_stand_alone_at: level: 'error'
+			files: '<%= coffee.main.src %>'
 
 	unless gf.hasSection 'bower_concat'
 		gf.addSection 'bower_concat',
@@ -31,26 +33,37 @@ Generator::gruntfile = ->
 					'modernizr'
 				]
 
-	unless gf.hasSection 'traceur_build'
-		gf.addSection 'traceur_build',
-			options:
-				blockBinding: true
-				freeVariableChecker: false
+	unless gf.hasSection 'coffee'
+		gf.addSection 'coffee',
+			main:
+				expand: true
+				src: [
+					"#{@htdocs_prefix}js/components/*.coffee",
+					"#{@htdocs_prefix}js/*.coffee"
+				]
+				dest: '.'
+				ext: '.js'
+
+		gf.addWatcher 'coffee',
+			files: '<%= coffee.main.src %>'
+			tasks: 'coffee'
+
+	unless gf.hasSection 'concat'
+		gf.addSection 'concat',
 			main:
 				src: [
 					'<%= bower_concat.main.dest %>'
-					"#{@htdocs_prefix}tamia/tamia/traceur-rt-light.js"
+					"#{@htdocs_prefix}tamia/vendor/*.js"
 					"#{@htdocs_prefix}tamia/tamia/tamia.js"
 					"#{@htdocs_prefix}tamia/tamia/component.js"
-					"#{@htdocs_prefix}tamia/blocks/*/*.js"
 					"#{@htdocs_prefix}js/components/*.js"
 					"#{@htdocs_prefix}js/main.js"
 				]
 				dest: "#{@htdocs_prefix}build/scripts.js"
 
-		gf.addWatcher 'traceur_build',
-			files: '<%= traceur_build.main.src %>'
-			tasks: 'traceur_build'
+		gf.addWatcher 'concat',
+			files: '<%= concat.main.src %>'
+			tasks: 'concat'
 
 	unless gf.hasSection 'uglify'
 		gf.addSection 'uglify',
@@ -61,16 +74,16 @@ Generator::gruntfile = ->
 						global_defs:
 							DEBUG: gf.JS 'debug'
 				files:
-					'<%= traceur_build.main.dest %>': '<%= traceur_build.main.dest %>'
+					'<%= concat.main.dest %>': '<%= concat.main.dest %>'
 
-	gf.addTask 'default', ['jshint', 'traceur_build', 'uglify']
-	gf.addTask 'deploy', ['traceur_build', 'uglify']
+	gf.addTask 'default', ['coffeelint', 'bower_concat', 'coffee', 'concat', 'uglify']
+	gf.addTask 'deploy', ['bower_concat', 'coffee', 'concat', 'uglify']
 
 	gf.save()
 
 Generator::files = ->
-	@template 'main.js', 'js/main.js'
-	@copyIfNot '.jshintrc'
+	@template 'main.coffee', 'js/main.coffee'
 
 Generator::dependencies = ->
-	@installFromNpm ['grunt', 'load-grunt-tasks', 'grunt-contrib-jshint', 'grunt-traceur-build', 'grunt-contrib-uglify', 'grunt-contrib-watch', 'grunt-bower-concat']
+	@installFromNpm ['grunt', 'load-grunt-tasks', 'grunt-coffeelint', 'grunt-contrib-coffee', 'grunt-contrib-uglify',
+		'grunt-contrib-watch', 'grunt-bower-concat']

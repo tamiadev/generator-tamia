@@ -88,20 +88,28 @@ Generator::isWordpress = ->
 Generator::isWordpressTheme = ->
 	(fs.existsSync 'header.php') and (fs.existsSync 'footer.php') and (fs.existsSync 'functions.php')
 
-Generator::installFromBower = (packages) ->
+Generator::installFromBower = (packages, skip_gitignore = false) ->
 	return  if @options['skip-bower']
 	return  if @options['skip-install']
 	@echo 'Installing ' + (@grunt.log.wordlist packages) + ' from Bower...'
-	@gitIgnore 'bower_components'
+	@gitIgnore 'bower_components'  unless skip_gitignore
 	@templateIfNot 'bower.json'
 	@bowerInstall packages, {save: true}, ->
 
 Generator::installFromNpm = (packages) ->
 	return  if @options['skip-npm']
 	return  if @options['skip-install']
+	filepath = 'package.json'
+
+	# Filter out already installed modules to speed up installation
+	if fs.existsSync filepath
+		json = @readJsonFile filepath
+		packages = @_.filter packages, ((pkg) -> not json?.devDependencies[pkg])
+	return  if not packages.length
+
 	@echo 'Installing ' + (@grunt.log.wordlist packages) + ' from npm...'
 	@gitIgnore 'node_modules'
-	@templateIfNot 'package.json'
+	@templateIfNot filepath
 	@npmInstall packages, {'save-dev': true}, ->
 
 Generator::printLog = (func, messages...) ->
