@@ -15,13 +15,7 @@ Generator::gruntfile = ->
 
 	unless gf.hasSection 'coffeelint'
 		gf.addSection 'coffeelint',
-			options:
-				no_tabs: level: 'ignore'
-				indentation: level: 'ignore'
-				max_line_length: level: 'ignore'
-				arrow_spacing: level: 'error'
-				no_empty_param_list: level: 'error'
-				no_stand_alone_at: level: 'error'
+			options: gf.JS "grunt.file.readJSON('.coffeelintrc')"
 			files: '<%= coffee.main.src %>'
 
 	unless gf.hasSection 'bower_concat'
@@ -83,6 +77,7 @@ Generator::gruntfile = ->
 
 Generator::files = ->
 	@template 'main.coffee', 'js/main.coffee'
+	@copyIfNot '.coffeelintrc'
 
 Generator::dependencies = ->
 	@installFromNpm ['grunt', 'load-grunt-tasks', 'grunt-coffeelint', 'grunt-contrib-coffee', 'grunt-contrib-uglify',
