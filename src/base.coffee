@@ -8,6 +8,7 @@ Configstore = require 'configstore'
 yeoman = require 'yeoman-generator'
 grunt = require 'grunt'
 chalk = require 'chalk'
+moment = require 'moment'
 
 module.exports = class Generator extends yeoman.generators.Base
 	constructor: (args, options) ->
@@ -36,6 +37,8 @@ module.exports = class Generator extends yeoman.generators.Base
 		# Expose useful libraries
 		@grunt = grunt
 		@chalk = chalk
+		@moment = moment
+		@log.update = @_log_update
 
 Generator::ifYes = (prop) ->
 	/y/i.test prop
@@ -117,10 +120,10 @@ Generator::printLog = (func, messages...) ->
 		msg.replace(/`(.*?)`/g, (m, str) -> chalk.cyan(str))
 
 	messages = @_.map messages, colorize
-	@grunt.log[func] messages...
+	@log[func] messages...
 
 Generator::echo = () ->
-	@printLog 'writeln', arguments...
+	@printLog 'ok', arguments...
 
 Generator::error = () ->
 	@printLog 'error', arguments...
@@ -135,6 +138,12 @@ Generator::printList = (list) ->
 
 Generator::readJsonFile = (filepath) ->
 	JSON.parse(@readFileAsString(filepath))
+
+Generator::readTemplate = (filepath) ->
+	fs.readFileSync (path.join @sourceRoot(), filepath), encoding: 'utf-8'
+
+Generator::process = (filepath) ->
+	@engine (@readTemplate filepath), this
 
 Generator::gitIgnore = (pattern) ->
 	filepath = '.gitignore'
@@ -153,3 +162,8 @@ Generator::gitIgnore = (pattern) ->
 Generator::openInEditor = (filepath) ->
 	done = @async()
 	exec "$EDITOR '#{filepath}'", done
+
+Generator::_log_update = () ->
+	@write (chalk.yellow '   update ')
+	@write (util.format.apply util, arguments) + '\n'
+	this

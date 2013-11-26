@@ -52,6 +52,14 @@ Installs block. Also updates Gruntfiles and index stylesheet.
 
 Creates new HTML file.
 
+### readme
+
+Creates new HTML file.
+
+### dots
+
+Creates dotfiles: `.jshintrc`, `.coffeelintrc`, `.jscs.json`, `.travis.yml`.
+
 ## Additional sub-generators
 
 You can use them without Tâmia.

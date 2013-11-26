@@ -24,7 +24,8 @@
     "yeoman-generator": "~0.14.0",
     "configstore": "~0.1.5",
     "grunt": "~0.4.2",
-    "chalk": "~0.2.1"
+    "chalk": "~0.2.1",
+    "moment": "~2.4.0"
   },
   "devDependencies": {
     "mocha": "~1.14.0",

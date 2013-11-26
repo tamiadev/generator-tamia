@@ -1,0 +1,4 @@
+# <%= project %><%= travis || '' %>
+
+<%= changelog || '' %>
+<%= license || '' %>
