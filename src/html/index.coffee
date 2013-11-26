@@ -57,3 +57,5 @@ Generator::files = ->
 		@fetch remoteBowerJson, bowerJson, (err) =>
 			@stop "Cannot download #{remoteBowerJson}"  if err
 			write()
+
+	@openInEditor filepath
