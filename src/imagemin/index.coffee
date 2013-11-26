@@ -16,11 +16,8 @@ Generator::askFor = ->
 		default: 'y/N'
 	]
 
-	@prompt prompts, (err, props) =>
-		return (@emit 'error', err)  if err
-
+	@prompt prompts, (props) =>
 		@svg = @unlessNo props.svg
-
 		done()
 
 Generator::dirs = ->

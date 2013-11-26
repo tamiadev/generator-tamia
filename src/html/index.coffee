@@ -22,11 +22,8 @@ Generator::askFor = ->
 		},
 	]
 
-	@prompt prompts, (err, props) =>
-		return (@emit 'error', err)  if err
-
+	@prompt prompts, (props) =>
 		@_.extend this, props
-
 		done()
 
 Generator::files = ->

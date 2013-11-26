@@ -21,13 +21,13 @@
     "prepublish": "coffee -o ./ -c src/"
   },
   "dependencies": {
-    "yeoman-generator": "~0.10.5",
+    "yeoman-generator": "~0.14.0",
     "configstore": "~0.1.5",
-    "grunt": "~0.4.1",
+    "grunt": "~0.4.2",
     "chalk": "~0.2.1"
   },
   "devDependencies": {
-    "mocha": "~1.13.0",
+    "mocha": "~1.14.0",
     "coffee-script": "~1.6.3",
     "load-grunt-tasks": "~0.2.0"
   },

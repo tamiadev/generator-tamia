@@ -31,15 +31,11 @@ Generator::askFor = ->
 		}
 	]
 
-	@prompt prompts, (err, props) =>
-		return (@emit 'error', err)  if err
-
+	@prompt prompts, (props) =>
 		@styles = @ifYes props.styles
 		@js = @ifYes props.js
 		@modernizr = @ifYes props.modernizr
-
 		done()
-
 
 Generator::all = ->
 	args = @args

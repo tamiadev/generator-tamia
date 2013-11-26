@@ -13,14 +13,11 @@ Generator::askFor = ->
 		message: 'Plugin name'
 	]
 
-	@prompt prompts, (err, props) =>
-		return (@emit 'error', err)  if err
-
+	@prompt prompts, (props) =>
 		@name = @_.capitalize props.name
 		@filename = (props.name.replace /[^a-z]/ig, '').toLowerCase()
 		@cls = @_.classify props.name
 		@method = (@cls.charAt 0).toLowerCase() + @cls.slice(1)
-
 		done()
 
 Generator::files = ->

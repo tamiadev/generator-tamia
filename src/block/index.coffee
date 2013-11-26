@@ -30,9 +30,7 @@ Generator::askFor = ->
 		message: 'Install block:'
 	]
 
-	@prompt prompts, (err, props) =>
-		return (@emit 'error', err)  if err
-
+	@prompt prompts, (props) =>
 		@block = props.name
 
 		if @block not in @blocks

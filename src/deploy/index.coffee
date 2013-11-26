@@ -13,11 +13,8 @@ Generator::askFor = ->
 		message: 'Remote folder name'
 	]
 
-	@prompt prompts, (err, props) =>
-		return (@emit 'error', err)  if err
-
+	@prompt prompts, (props) =>
 		@folder = props.folder
-
 		done()
 
 Generator::files = ->
