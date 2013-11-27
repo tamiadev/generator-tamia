@@ -16,7 +16,7 @@
     "url": "git://github.com/sapegin/generator-tamia.git"
   },
   "scripts": {
-    "test": "coffee -o ./ -c src/; mocha test/test-*.js",
+    "test": "coffeelint -f .coffeelintrc src",
     "watch": "coffee -w -o ./ -c src/",
     "prepublish": "coffee -o ./ -c src/"
   },
@@ -28,9 +28,9 @@
     "moment": "~2.4.0"
   },
   "devDependencies": {
-    "mocha": "~1.14.0",
     "coffee-script": "~1.6.3",
-    "load-grunt-tasks": "~0.2.0"
+    "load-grunt-tasks": "~0.2.0",
+    "coffeelint": "~1.0.1"
   },
   "engines": {
     "node": ">=0.8.0"

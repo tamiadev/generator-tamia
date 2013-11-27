@@ -122,10 +122,10 @@ Generator::printLog = (func, messages...) ->
 	messages = @_.map messages, colorize
 	@log[func] messages...
 
-Generator::echo = () ->
+Generator::echo = ->
 	@printLog 'ok', arguments...
 
-Generator::error = () ->
+Generator::error = ->
 	@printLog 'error', arguments...
 
 Generator::printList = (list) ->
@@ -163,7 +163,7 @@ Generator::openInEditor = (filepath) ->
 	done = @async()
 	exec "$EDITOR '#{filepath}'", done
 
-Generator::_log_update = () ->
+Generator::_log_update = ->
 	@write (chalk.yellow '   update ')
 	@write (util.format.apply util, arguments) + '\n'
 	this

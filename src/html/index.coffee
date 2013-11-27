@@ -32,7 +32,7 @@ Generator::files = ->
 	filepath = "#{@name}.html"
 	@stopIfExists filepath
 
-	write = () =>
+	write = =>
 		if bowerJson
 			bower = @readJsonFile bowerJson
 			jqueryVer = bower.version
