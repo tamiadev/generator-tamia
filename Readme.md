@@ -44,9 +44,9 @@ Configures deploy using [shipit](https://github.com/sapegin/shipit).
 
 Creates new JS component.
 
-### block
+### module
 
-Installs block. Also updates Gruntfiles and index stylesheet.
+Installs Tâmia module. Also updates Gruntfile and index stylesheet.
 
 ### html
 

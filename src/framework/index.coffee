@@ -19,7 +19,7 @@ Generator::tamia = ->
 	distUrl = 'https://github.com/sapegin/tamia/archive/master.tar.gz'
 	@tarball distUrl, (path.join @sourceRoot(), 'tamia'), =>
 		@directory 'tamia/tamia', 'tamia/tamia'
-		@directory 'tamia/blocks', 'tamia/blocks'
+		@directory 'tamia/modules', 'tamia/modules'
 		@directory 'tamia/vendor', 'tamia/vendor'
 		done()
 

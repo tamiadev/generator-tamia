@@ -1,4 +1,4 @@
-# Installs block.
+# Installs Tâmia module.
 # Also updates Gruntfile and index stylesheet.
 
 'use strict'
@@ -10,46 +10,45 @@ Gruntfile = require '../lib/gruntfile'
 module.exports = class Generator extends base
 
 Generator::showList = ->
-	blocks = @grunt.file.expand {cwd: 'tamia/blocks', filter: 'isDirectory'}, '*'
-	blocks = @_.map blocks, (name) =>
-		readme = @readFileAsString "tamia/blocks/#{name}/Readme.md"
+	modules = @grunt.file.expand {cwd: 'tamia/modules', filter: 'isDirectory'}, '*'
+	modules = @_.map modules, (name) =>
+		readme = @readFileAsString "tamia/modules/#{name}/Readme.md"
 		m = readme.match /^#.*?\n+([^\n]+?)\n/
 		[name, m && m[1] || '']
 
-	@blocks = @_.pluck blocks, 0
+	@modules = @_.pluck modules, 0
 
 	@echo ''
-	@grunt.log.subhead 'Available blocks:'
-	@printList blocks
+	@grunt.log.subhead 'Available modules:'
+	@printList modules
 	@echo ''
 
 Generator::askFor = ->
 	done = @async()
 	prompts = [
 		name: 'name'
-		message: 'Install block:'
+		message: 'Install module:'
 	]
 
 	@prompt prompts, (props) =>
-		@block = props.name
+		@module = props.name
 
-		if @block not in @blocks
-			@error "Block `#{@block}` not found."
-			process.exit()
+		if @module not in @modules
+			@stop "Module `#{@block}` not found."
 
 		done()
 
 Generator::init = ->
-	@blockBase = "tamia/blocks/#{@block}"
+	@moduleBase = "tamia/modules/#{@module}"
 
 Generator::gruntfile = ->
-	return  unless (fs.existsSync "#{@blockBase}/script.js")
+	return  unless (fs.existsSync "#{@moduleBase}/script.js")
 
 	filename = 'Gruntfile.coffee'
 	return  unless (fs.existsSync filename)
 
 	gf = @readFileAsString filename
-	importStr = "'tamia/blocks/#{@block}/script.js'"
+	importStr = "'tamia/modules/#{@module}/script.js'"
 	return  unless (gf.indexOf importStr) is -1
 
 	gf = gf.replace /(\n\t*)('tamia\/tamia\/component.js',?)/, '$1$2$1' + importStr
@@ -58,13 +57,13 @@ Generator::gruntfile = ->
 	@echo "File `#{filename}` updated."
 
 Generator::styles = ->
-	return  unless (fs.existsSync "#{@blockBase}/index.styl")
+	return  unless (fs.existsSync "#{@moduleBase}/index.styl")
 
 	filename = 'styles/index.styl'
 	return  unless (fs.existsSync filename)
 
 	stylus = @grunt.file.read filename
-	importStr = "@import \"blocks/#{@block}\";"
+	importStr = "@import \"modules/#{@module}\";"
 	return  unless (stylus.indexOf importStr) is -1
 
 	stylus = stylus.replace /(@import ['"]tamia['"];?)/, '$1\n' + importStr
