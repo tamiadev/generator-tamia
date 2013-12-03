@@ -62,11 +62,11 @@ Generator::styles = ->
 	filename = 'styles/index.styl'
 	return  unless (fs.existsSync filename)
 
-	stylus = @grunt.file.read filename
+	stylus = @readFileAsString filename
 	importStr = "@import \"modules/#{@module}\";"
 	return  unless (stylus.indexOf importStr) is -1
 
 	stylus = stylus.replace /(@import ['"]tamia['"];?)/, '$1\n' + importStr
 	@writeFile filename, stylus
 
-	@echo "File `#{filename}` updated."
+	@log.update filename

@@ -44,6 +44,10 @@ Configures deploy using [shipit](https://github.com/sapegin/shipit).
 
 Creates new JS component.
 
+### block
+
+Creates new Stylus block. Also updates `stylus/index.styl`.
+
 ### module
 
 Installs Tâmia module. Also updates Gruntfile and index stylesheet.

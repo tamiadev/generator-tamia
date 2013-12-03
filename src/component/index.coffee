@@ -10,7 +10,7 @@ Generator::askFor = ->
 	done = @async()
 	prompts = [
 		name: 'name'
-		message: 'Component name'
+		message: 'Component name:'
 	]
 
 	@prompt prompts, (props) =>

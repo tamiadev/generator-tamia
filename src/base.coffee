@@ -66,6 +66,33 @@ Generator::copyIfNot = (filepath) ->
 Generator::templateIfNot = (filepath) ->
 	@template filepath  unless (fs.existsSync filepath)
 
+###
+Renders template, saves file and opens it in default editor.
+
+@param {String} template Template file name
+@param {String} filepath Destination file
+###
+Generator::templateAndOpen = (template, filepath) ->
+	contents = @process template
+	curpos = @getCursorPosition contents
+	contents = contents.replace /®/, ''
+	@writeFile filepath, contents
+	@log.create filepath
+	@openInEditor filepath, curpos
+
+###
+Finds “cursor” position in template: line and column of “®” symbol.
+
+@param {String} File contents
+@returns {String} line:column
+###
+Generator::getCursorPosition = (str) ->
+	[str, __] = str.split '®'
+	lines = str.split '\n'
+	line = lines.length
+	column = lines.pop().length + 1
+	"#{line}:#{column}"
+
 Generator::stop = (message) ->
 	@error message
 	process.exit()
@@ -159,8 +186,9 @@ Generator::gitIgnore = (pattern) ->
 
 	@echo "`#{pattern}` added to .gitignore."
 
-Generator::openInEditor = (filepath) ->
+Generator::openInEditor = (filepath, curpos) ->
 	done = @async()
+	filepath += ":#{curpos}"  if curpos
 	exec "$EDITOR '#{filepath}'", done
 
 Generator::_log_update = ->
