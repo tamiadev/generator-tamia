@@ -1,4 +1,5 @@
 # Creates new Stylus block. Also updates stylus/index.styl.
+# USAGE: $ yo tamia:block block-name
 
 'use strict'
 
@@ -8,6 +9,8 @@ base = require '../base'
 module.exports = class Generator extends base
 
 Generator::askFor = ->
+	return  if @name
+
 	done = @async()
 	prompts = [
 		name: 'name'

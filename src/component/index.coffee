@@ -1,4 +1,5 @@
 # Creates new JS component.
+# USAGE: $ yo tamia:component component-name
 
 'use strict'
 
@@ -7,6 +8,8 @@ base = require '../base'
 module.exports = class Generator extends base
 
 Generator::askFor = ->
+	return  if @name
+
 	done = @async()
 	prompts = [
 		name: 'name'
@@ -14,10 +17,14 @@ Generator::askFor = ->
 	]
 
 	@prompt prompts, (props) =>
-		@name = @_.dasherize props.name
-		@cls = @_.classify props.name
-		@filename = (props.name.replace /[^a-z]/ig, '').toLowerCase()
+		@name = props.name
 		done()
+
+Generator::prepare = ->
+	name = @name
+	@name = @_.dasherize name
+	@cls = @_.classify name
+	@filename = (name.replace /[^a-z]/ig, '').toLowerCase()
 
 Generator::files = ->
 	filepath = "js/components/#{@filename}.js"

@@ -27,6 +27,9 @@ module.exports = class Generator extends yeoman.generators.Base
 		# Project name
 		@project = path.basename process.cwd()
 
+		# Optional CLI argument: @name
+		@argument 'name', {type: String, required: false}
+
 		# User data: ~/.config/configstore/yeoman-generator.yml
 		# TODO: Ask to fill values if they are default
 		@config = new Configstore 'yeoman-generator',
@@ -70,12 +73,16 @@ Generator::templateIfNot = (filepath) ->
 Renders template, saves file and opens it in default editor.
 
 @param {String} template Template file name
-@param {String} filepath Destination file
+@param {String} [filepath] Destination file
 ###
 Generator::templateAndOpen = (template, filepath) ->
+	filepath = template  unless filepath
+	@stopIfExists filepath
 	contents = @process template
-	curpos = @getCursorPosition contents
-	contents = contents.replace /®/, ''
+	curpos = undefined
+	if contents.indexOf '®' isnt -1
+		curpos = @getCursorPosition contents
+		contents = contents.replace /®/, ''
 	@writeFile filepath, contents
 	@log.create filepath
 	@openInEditor filepath, curpos
@@ -99,7 +106,7 @@ Generator::stop = (message) ->
 
 Generator::stopIfExists = (filepath) ->
 	return  unless fs.existsSync filepath
-	@stop "File \"#{filepath}\" already exists."
+	@stop "File `#{filepath}` already exists."
 
 Generator::writeFile = (filepath, content) ->
 	fs.writeFileSync (path.join process.cwd(), filepath), content
@@ -186,6 +193,12 @@ Generator::gitIgnore = (pattern) ->
 
 	@echo "`#{pattern}` added to .gitignore."
 
+###
+Opens file in default editor.
+
+@param {String} filepath Destination file
+@param {String} [curpos] Cursor position: "line:column"
+###
 Generator::openInEditor = (filepath, curpos) ->
 	done = @async()
 	filepath += ":#{curpos}"  if curpos

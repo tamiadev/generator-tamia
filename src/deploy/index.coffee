@@ -18,4 +18,4 @@ Generator::askFor = ->
 		done()
 
 Generator::files = ->
-	@templateIfNot '.shipit'
+	@templateAndOpen '.shipit'
