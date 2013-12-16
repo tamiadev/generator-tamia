@@ -10,6 +10,11 @@
 	"undef": true,
 	"trailing": true,
 	"esnext": true,
+	"camelcase": true,
+	"bitwise": true,
+	"noempty": true,
+	"unused": "vars",
+	"strict": true,
 	"globals": {
 		"Modernizr": false,
 		"tamia": false,
