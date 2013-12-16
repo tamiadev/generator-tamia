@@ -16,8 +16,11 @@ Generator::checkUpdate = ->
 
 Generator::tamia = ->
 	done = @async()
+	tempPath = path.join @sourceRoot(), 'tamia'
 	distUrl = 'https://github.com/sapegin/tamia/archive/master.tar.gz'
-	@tarball distUrl, (path.join @sourceRoot(), 'tamia'), =>
+	@delete tempPath, {force: true}
+	@tarball distUrl, tempPath, =>
+		@delete 'tamia'
 		@directory 'tamia/tamia', 'tamia/tamia'
 		@directory 'tamia/modules', 'tamia/modules'
 		@directory 'tamia/vendor', 'tamia/vendor'

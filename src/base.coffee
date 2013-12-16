@@ -198,6 +198,14 @@ Generator::openInEditor = (filepath, curpos) ->
 	filepath += ":#{curpos}"  if curpos
 	exec "$EDITOR '#{filepath}'", done
 
+###
+Deletes the specified filepath. Will deletes files and folders recursively.
+
+@param {String} filepath Path to delete.
+###
+Generator::delete = ->
+	grunt.file.delete arguments...
+
 Generator::_log_update = ->
 	@write (chalk.yellow '   update ')
 	@write (util.format.apply util, arguments) + '\n'
