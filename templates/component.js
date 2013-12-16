@@ -1,6 +1,6 @@
 /* Author: <%= authorName %>, <%= authorUrl %>, <%= (new Date).getFullYear() %> */
 
-;(function ($) {
+;(function($) {
 	'use strict';
 
 	class <%= cls %> extends Component {

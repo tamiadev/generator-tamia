@@ -1,7 +1,7 @@
 /* Author: <%= authorName %>, <%= authorUrl %>, <%= (new Date).getFullYear() %> */
 
 /*global tamia:false */
-;(function ($) {
+;(function($) {
 	'use strict';
 
 	tamia.initComponents({
