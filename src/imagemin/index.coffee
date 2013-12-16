@@ -13,11 +13,11 @@ Generator::askFor = ->
 		name: 'svg'
 		type: 'confirm'
 		message: 'Would you like to optimize SVG files?'
-		default: 'y/N'
+		default: false
 	]
 
 	@prompt prompts, (props) =>
-		@svg = @unlessNo props.svg
+		@svg = props.svg
 		done()
 
 Generator::dirs = ->

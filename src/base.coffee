@@ -43,12 +43,6 @@ module.exports = class Generator extends yeoman.generators.Base
 		@moment = moment
 		@log.update = @_log_update
 
-Generator::ifYes = (prop) ->
-	/y/i.test prop
-
-Generator::unlessNo = (prop) ->
-	not (/n/i.test prop)
-
 # @hookFor that doesn’t requre to be invoked from constructor.
 # Can be used inside @prompt.
 Generator::hookFor = (name, config) ->

@@ -15,26 +15,24 @@ Generator::askFor = ->
 			name: 'styles'
 			type: 'confirm'
 			message: 'Would you like to use Stylus?'
-			default: 'Y/n'
+			default: true
 		},
 		{
 			name: 'js'
 			type: 'confirm'
 			message: 'Would you like to use JavaScript?'
-			default: 'Y/n'
+			default: true
 		}
 		{
 			name: 'modernizr'
 			type: 'confirm'
 			message: 'Would you like to use Modernizr?'
-			default: 'Y/n'
+			default: true
 		}
 	]
 
 	@prompt prompts, (props) =>
-		@styles = @ifYes props.styles
-		@js = @ifYes props.js
-		@modernizr = @ifYes props.modernizr
+		@_.extend this, props
 		done()
 
 Generator::all = ->
