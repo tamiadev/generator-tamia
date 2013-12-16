@@ -5,6 +5,7 @@
 
 	class <%= cls %> extends Component {
 		init() {
+			®
 		}
 	}
 
