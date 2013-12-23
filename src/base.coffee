@@ -151,6 +151,9 @@ Generator::printLog = (func, messages...) ->
 	@log[func] messages...
 
 Generator::echo = ->
+	console.log arguments...
+
+Generator::ok = ->
 	@printLog 'ok', arguments...
 
 Generator::error = ->
@@ -185,7 +188,7 @@ Generator::gitIgnore = (pattern) ->
 	ignores.push pattern
 	@writeFile filepath, (ignores.join '\n')
 
-	@echo "`#{pattern}` added to .gitignore."
+	@ok "`#{pattern}` added to .gitignore."
 
 ###
 Opens file in default editor.

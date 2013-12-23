@@ -54,7 +54,7 @@ Generator::gruntfile = ->
 	gf = gf.replace /(\n\t*)('tamia\/tamia\/component.js',?)/, '$1$2$1' + importStr
 	@writeFile filename, gf
 
-	@echo "File `#{filename}` updated."
+	@log.update filename
 
 Generator::styles = ->
 	return  unless (fs.existsSync "#{@moduleBase}/index.styl")
