@@ -1,4 +1,7 @@
 # Creates new HTML file.
+#
+# Options:
+#   --no-js: Do not create links to jQuery and scripts file.
 
 'use strict'
 
@@ -6,6 +9,9 @@ base = require '../base'
 fs = require 'fs'
 
 module.exports = class Generator extends base
+
+Generator::options = ->
+	@js = @options.js ? true
 
 Generator::askFor = ->
 	done = @async()
@@ -33,29 +39,30 @@ Generator::files = ->
 	@stopIfExists filepath
 
 	write = =>
-		if bowerJson
+		if @js and bowerJson
 			bower = @readJsonFile bowerJson
 			jqueryVer = bower.version
 			if @lang is 'ru'
 				@jqueryPath = "http://yandex.st/jquery/#{jqueryVer}/jquery.min.js"
 			else
 				@jqueryPath = "http://ajax.googleapis.com/ajax/libs/jquery/#{jqueryVer}/jquery.min.js"
+			@delete bowerJsonDir  if bowerJsonDir
 
-		@echo()
-		@template 'html.html', filepath
-		fs.unlinkSync bowerJson  unless @localJquery
+		@templateAndOpen 'html.html', filepath
 		done()
 
-	bowerJson = 'bower_components/jquery/bower.json'
-	if fs.existsSync bowerJson
-		@localJquery = true
-		write()
-	else
-		@localJquery = false
-		bowerJson = '__bwr.json'
-		remoteBowerJson = 'https://raw.github.com/components/jquery/master/bower.json'
-		@fetch remoteBowerJson, bowerJson, (err) =>
-			@stop "Cannot download #{remoteBowerJson}"  if err
+	if @js
+		bowerJson = 'bower_components/jquery/bower.json'
+		if fs.existsSync bowerJson
+			@localJquery = true
 			write()
-
-	@openInEditor filepath
+		else
+			@localJquery = false
+			bowerJsonDir = '__bwr'
+			bowerJson = "#{bowerJsonDir}/bower.json"
+			remoteBowerJson = 'https://raw.github.com/components/jquery/master/bower.json'
+			@fetch remoteBowerJson, bowerJsonDir, (err) =>
+				@stop "Cannot download #{remoteBowerJson}"  if err
+				write()
+	else
+		write()
