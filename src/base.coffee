@@ -60,8 +60,15 @@ Generator::hookFor = (name, config) ->
 Generator::copyIfNot = (filepath) ->
 	@copy filepath, filepath  unless (fs.existsSync filepath)
 
-Generator::templateIfNot = (filepath) ->
-	@template filepath  unless (fs.existsSync filepath)
+###
+Renders template and saves it. Silently exists when file already exists.
+
+@param {String} template Template file name
+@param {String} [filepath] Destination file
+###
+Generator::templateIfNot = (template, filepath) ->
+	filepath = template  unless filepath
+	@template template, filepath  unless (fs.existsSync filepath)
 
 ###
 Renders template, saves file and opens it in default editor.
@@ -77,8 +84,8 @@ Generator::templateAndOpen = (template, filepath) ->
 	if contents.indexOf '®' isnt -1
 		curpos = @getCursorPosition contents
 		contents = contents.replace /®/, ''
-	@writeFile filepath, contents
-	@log.create filepath
+
+	@write filepath, contents
 	@openInEditor filepath, curpos
 
 ###
