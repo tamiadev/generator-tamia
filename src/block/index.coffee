@@ -23,16 +23,4 @@ Generator::askFor = ->
 
 Generator::files = ->
 	filepath = "styles/blocks/#{@name}.styl"
-	@stopIfExists filepath
 	@templateAndOpen 'block.styl', filepath
-
-Generator::styles = ->
-	filename = 'styles/index.styl'
-	return  unless (fs.existsSync filename)
-
-	stylus = @readFileAsString filename
-	importStr = "@import \"blocks/#{@name}\";"
-	stylus = stylus.replace /(@import ['"]blocks\/[-\w]+['"];?)(\s$)/, '$1\n' + importStr + '$2'
-	@writeFile filename, stylus
-
-	@log.update filename
