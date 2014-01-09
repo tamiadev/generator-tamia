@@ -32,7 +32,7 @@ Generator::gruntfile = ->
 			main:
 				expand: true
 				src: [
-					"#{@htdocs_prefix}js/components/*.coffee",
+					"#{@htdocs_prefix}js/components/*.coffee"
 					"#{@htdocs_prefix}js/*.coffee"
 				]
 				dest: '.'
@@ -81,4 +81,4 @@ Generator::files = ->
 
 Generator::dependencies = ->
 	@installFromNpm ['grunt', 'load-grunt-tasks', 'grunt-coffeelint', 'grunt-contrib-coffee', 'grunt-contrib-uglify',
-		'grunt-contrib-watch', 'grunt-bower-concat']
+		'grunt-contrib-watch', 'grunt-contrib-concat', 'grunt-bower-concat']
