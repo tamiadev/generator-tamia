@@ -43,8 +43,6 @@ Generator::gruntfile = ->
 	# svgmin
 	unless not @svg or gf.hasSection 'svgmin'
 		gf.addSection 'svgmin',
-			options:
-				pngquant: true
 			main:
 				files: [
 					expand: true
