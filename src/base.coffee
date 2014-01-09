@@ -79,14 +79,18 @@ Renders template, saves file and opens it in default editor.
 Generator::templateAndOpen = (template, filepath) ->
 	filepath = template  unless filepath
 	@stopIfExists filepath
+
 	contents = @process template
+
 	curpos = undefined
 	if contents.indexOf '®' isnt -1
 		curpos = @getCursorPosition contents
 		contents = contents.replace /®/, ''
 
 	@write filepath, contents
-	@openInEditor filepath, curpos
+
+	process.nextTick =>
+		@openInEditor filepath, curpos
 
 ###
 Finds “cursor” position in template: line and column of “®” symbol.
