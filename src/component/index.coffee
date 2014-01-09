@@ -24,10 +24,7 @@ Generator::prepare = ->
 	name = @name
 	@name = @_.dasherize name
 	@cls = @_.classify name
-	@filename = (name.replace /[^a-z]/ig, '').toLowerCase()
 
 Generator::files = ->
-	filepath = "js/components/#{@filename}.js"
-	@stopIfExists filepath
-	@template 'component.js', filepath
-	@openInEditor filepath
+	filepath = "js/components/#{@name}.js"
+	@templateAndOpen 'component.js', filepath
