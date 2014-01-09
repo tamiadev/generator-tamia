@@ -45,6 +45,9 @@ Gruntfile::addSection = (name, config) ->
 
 Gruntfile::addWatcher = (name, config) ->
 	subsection = {}
+	config.options = {
+		atBegin: true
+	}
 	subsection[name] = config
 	if @hasSection 'watch'
 		# TODO: check duplicates
