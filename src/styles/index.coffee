@@ -31,7 +31,6 @@ Generator::gruntfile = ->
 				'banner': '<%= banner %>'
 				'define':
 					DEBUG: gf.JS 'debug'
-					import_tree: gf.JS "(require 'stylus-import-tree')"
 				'paths': ['tamia']
 				'use': [
 					gf.JS "() -> (require 'autoprefixer-stylus')('last 2 versions', 'ie 8', 'ie 9')"
@@ -53,4 +52,4 @@ Generator::gruntfile = ->
 
 Generator::dependencies = ->
 	@installFromNpm ['grunt', 'load-grunt-tasks', 'grunt-contrib-stylus', 'grunt-contrib-watch', 'autoprefixer-stylus',
-		'csso-stylus', 'stylus-import-tree']
+		'csso-stylus']
