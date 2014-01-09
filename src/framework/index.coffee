@@ -18,9 +18,9 @@ Generator::tamia = ->
 	done = @async()
 	tempPath = path.join @sourceRoot(), 'tamia'
 	distUrl = 'https://github.com/sapegin/tamia/archive/master.tar.gz'
-	@delete tempPath, {force: true}
+	@delete tempPath, {force: true}  if fs.existsSync tempPath
 	@tarball distUrl, tempPath, =>
-		@delete 'tamia'
+		@delete 'tamia'  if fs.existsSync 'tamia'
 		@directory 'tamia/tamia', 'tamia/tamia'
 		@directory 'tamia/modules', 'tamia/modules'
 		@directory 'tamia/vendor', 'tamia/vendor'
