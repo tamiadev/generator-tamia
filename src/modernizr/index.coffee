@@ -28,5 +28,5 @@ Generator::gruntfile = ->
 	gf.save()
 
 Generator::dependencies = ->
-	@installFromNpm ['grunt', 'matchdep', 'grunt-modernizr']
+	@installFromNpm ['grunt', 'load-grunt-tasks', 'grunt-modernizr']
 	@installFromBower ['modernizr']
