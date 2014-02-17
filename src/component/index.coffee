@@ -26,5 +26,5 @@ Generator::prepare = ->
 	@cls = @_.classify name
 
 Generator::files = ->
-	filepath = "js/components/#{@name}.js"
-	@templateAndOpen 'component.js', filepath
+	filepath = "js/components/#{@name}.coffee"
+	@templateAndOpen 'component.coffee', filepath
