@@ -1,0 +1,16 @@
+/* TEAM */
+
+  Web developer: Artem Sapegin
+  Email: artem@sapegin.ru
+  Site: http://sapegin.me
+  Location: Moscow, Russia
+
+/* POWERED BY */
+
+  Wordpress: http://wordpress.org/
+  Tâmia: http://sapegin.github.io/tamia/
+
+  -_-_-_-_-_-_-_,------,
+  _-_-_-_-_-_-_-|   /\_/\\
+  -_-_-_-_-_-_-~|__( ^ .^)
+  -_-_-_-_-_-_-""  ""

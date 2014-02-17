@@ -64,6 +64,10 @@ Creates new HTML file.
 
 Creates dotfiles: `.jshintrc`, `.coffeelintrc`, `.jscs.json`, `.travis.yml`.
 
+### humans
+
+Creates `humans.txt`.
+
 ## Additional sub-generators
 
 You can use them without Tâmia.
