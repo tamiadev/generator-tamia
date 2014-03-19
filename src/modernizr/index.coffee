@@ -13,14 +13,16 @@ Generator::gruntfile = ->
 
 	unless gf.hasSection 'modernizr'
 		gf.addSection 'modernizr',
-			devFile: 'bower_components/modernizr/modernizr.js'
-			outputFile: 'build/modernizr.js'
-			extra:
-				load: false
-			files: [
-				'build/scripts.js',
-				'build/styles.css'
-			]
+			main:
+				devFile: 'remote'
+				outputFile: 'build/modernizr.js'
+				extra:
+					load: false
+				files:
+					src: [
+						'build/scripts.js',
+						'build/styles.css'
+					]
 
 	gf.addTask 'default', ['modernizr']
 	gf.addTask 'deploy', ['modernizr']
