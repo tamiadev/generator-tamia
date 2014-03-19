@@ -21,16 +21,16 @@
     "prepublish": "coffee -o ./ -c src/"
   },
   "dependencies": {
-    "yeoman-generator": "~0.16.0",
+    "yeoman-generator": "~0.17.0-pre",
     "configstore": "~0.2.2",
-    "grunt": "~0.4.2",
+    "grunt": "~0.4.4",
     "chalk": "~0.4.0",
     "moment": "~2.5.1"
   },
   "devDependencies": {
     "coffee-script": "~1.7.1",
-    "load-grunt-tasks": "~0.3.0",
-    "coffeelint": "~1.0.8"
+    "load-grunt-tasks": "~0.4.0",
+    "coffeelint": "~1.1.0"
   },
   "engines": {
     "node": ">=0.8.0"
