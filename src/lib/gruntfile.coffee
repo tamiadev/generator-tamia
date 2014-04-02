@@ -52,7 +52,16 @@ Gruntfile::addWatcher = (name, config) ->
 	if @hasSection 'watch'
 		# TODO: check duplicates
 		subsection = @toCoffee subsection, level=3
-		@gf = @gf.replace /^\t\twatch:$/m, "\t\twatch:\n\t\t\toptions:\n\t\t\t\tlivereload: true\n\t\t\t\tspawn: false\n#{subsection}"
+		@gf = @gf.replace /^		watch:$/m, """		watch:
+			options:
+				spawn: false
+			livereload:
+				options:
+					livereload: true
+				files: [
+					'build/*.{css,js}'
+				]
+#{subsection}"""
 	else
 		@addSection 'watch', subsection
 	@writeln "watcher '#{name}' added"
