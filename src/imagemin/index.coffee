@@ -39,6 +39,9 @@ Generator::gruntfile = ->
 					dest: 'images/'
 				]
 		gf.addTask 'default', ['imagemin']
+		gf.addWatcher 'imagemin',
+			files: 'images_src/**/*.{png,jpg,gif}'
+			tasks: 'newer:imagemin'
 
 	# svgmin
 	unless not @svg or gf.hasSection 'svgmin'
@@ -51,10 +54,13 @@ Generator::gruntfile = ->
 					dest: 'images/'
 				]
 		gf.addTask 'default', ['svgmin']
+		gf.addWatcher 'svgmin',
+			files: 'images_src/**/*.svg'
+			tasks: 'newer:svgmin'
 
 	gf.save()
 
 Generator::dependencies = ->
-	modules = ['grunt', 'load-grunt-tasks', 'grunt-contrib-imagemin']
+	modules = ['grunt', 'load-grunt-tasks', 'grunt-contrib-imagemin', 'grunt-contrib-watch', 'grunt-newer']
 	modules.push 'grunt-svgmin'  if @svg
 	@installFromNpm modules
