@@ -15,7 +15,7 @@ Generator::gruntfile = ->
 
 	unless gf.hasSection 'coffeelint'
 		gf.addSection 'coffeelint',
-			options: gf.JS "grunt.file.readJSON('.coffeelintrc')"
+			options: configFile: 'coffeelint.json'
 			files: '<%= coffee.main.src %>'
 
 	unless gf.hasSection 'bower_concat'

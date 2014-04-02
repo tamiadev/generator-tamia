@@ -33,7 +33,7 @@ Generator::gruntfile = ->
 					DEBUG: gf.JS 'debug'
 				'paths': ['tamia']
 				'use': [
-					gf.JS "() -> (require 'autoprefixer-stylus')('last 2 versions', 'ie 8', 'ie 9')"
+					gf.JS "-> (require 'autoprefixer-stylus')('last 2 versions', 'ie 8', 'ie 9')"
 					gf.JS "debug or (require 'csso-stylus')"
 				]
 			compile:
