@@ -133,9 +133,17 @@ Generator::isWordpressTheme = ->
 Generator::installFromBower = (packages, skip_gitignore = false) ->
 	return  if @options['skip-bower']
 	return  if @options['skip-install']
+	filepath = 'bower.json'
+
+	# Filter out already installed modules to speed up installation
+	if fs.existsSync filepath
+		json = @readJsonFile filepath
+		packages = @_.filter packages, ((pkg) -> not json?.dependencies[pkg])
+	return  if not packages.length
+
 	@echo 'Installing ' + (@grunt.log.wordlist packages) + ' from Bower...'
 	@gitIgnore 'bower_components'  unless skip_gitignore
-	@templateIfNot 'bower.json'
+	@templateIfNot filepath
 	@bowerInstall packages, {save: true}, ->
 
 Generator::installFromNpm = (packages) ->
