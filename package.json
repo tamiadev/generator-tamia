@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "yeoman-generator": "~0.17.0-pre",
-    "configstore": "~0.2.2",
+    "configstore": "~0.3.0",
     "grunt": "~0.4.4",
     "chalk": "~0.4.0",
     "moment": "~2.5.1"
