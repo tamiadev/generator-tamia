@@ -77,7 +77,7 @@ Generator::gruntfile = ->
 
 Generator::files = ->
 	@template 'main.coffee', 'js/main.coffee'
-	@copyIfNot '.coffeelintrc'
+	@copyIfNot 'coffeelint.json'
 
 Generator::dependencies = ->
 	@installFromNpm ['grunt', 'load-grunt-tasks', 'grunt-coffeelint', 'grunt-contrib-coffee', 'grunt-contrib-uglify',

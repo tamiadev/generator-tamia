@@ -16,7 +16,7 @@
     "url": "git://github.com/sapegin/generator-tamia.git"
   },
   "scripts": {
-    "test": "coffeelint -f .coffeelintrc src",
+    "test": "coffeelint src",
     "watch": "coffee -w -o ./ -c src/",
     "prepublish": "coffee -o ./ -c src/"
   },

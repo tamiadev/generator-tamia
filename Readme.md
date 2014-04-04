@@ -62,7 +62,7 @@ Creates new HTML file.
 
 ### dots
 
-Creates dotfiles: `.jshintrc`, `.coffeelintrc`, `.jscs.json`, `.travis.yml`.
+Creates dotfiles: `.jshintrc`, `coffeelint.json`, `.jscs.json`, `.travis.yml`.
 
 ### humans
 

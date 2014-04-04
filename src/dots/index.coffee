@@ -1,4 +1,4 @@
-# Creates dotfiles: .jshintrc, .coffeelintrc, .jscs.json, .travis.yml.
+# Creates dotfiles: .jshintrc, coffeelint.json, .jscs.json, .travis.yml.
 
 'use strict'
 
@@ -15,7 +15,7 @@ Generator::askFor = ->
 			name: '.jshintrc'
 		},
 		{
-			name: '.coffeelintrc'
+			name: 'coffeelint.json'
 		},
 		{
 			name: '.jscs.json'
