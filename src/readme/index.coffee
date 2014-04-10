@@ -12,6 +12,7 @@ filepath_readme = 'Readme.md'
 Generator::askFor = ->
 	done = @async()
 
+	@author = true
 	@license = false
 	@changelog = false
 	@contributing = false
@@ -45,8 +46,10 @@ Generator::askFor = ->
 		done()
 
 Generator::readme = ->
+	@author = @process 'Readme_license.md'  if @author
 	@license = @process 'Readme_license.md'  if @license
 	@changelog = @process 'Readme_changelog.md'  if @changelog
+	@contributing = @process 'Readme_changelog.md'  if @contributing
 	@travis = @process 'Readme_travis.md'  if fs.existsSync '.travis.yml'
 
 	unless fs.existsSync filepath_readme
