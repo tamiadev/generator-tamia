@@ -13,10 +13,13 @@ Generator::gruntfile = ->
 
 	gf.addBanner this
 
-	unless gf.hasSection 'coffeelint'
-		gf.addSection 'coffeelint',
-			options: configFile: 'coffeelint.json'
-			files: '<%= coffee.main.src %>'
+	unless gf.hasSection 'jshint'
+		gf.addSection 'jshint',
+			options: jshintrc: '.jshintrc'
+			files: [
+				"#{@htdocs_prefix}js/*.js"
+				"#{@htdocs_prefix}js/components/*.js"
+			]
 
 	unless gf.hasSection 'bower_concat'
 		gf.addSection 'bower_concat',
@@ -26,21 +29,6 @@ Generator::gruntfile = ->
 					'jquery'
 					'modernizr'
 				]
-
-	unless gf.hasSection 'coffee'
-		gf.addSection 'coffee',
-			main:
-				expand: true
-				src: [
-					"#{@htdocs_prefix}js/components/*.coffee"
-					"#{@htdocs_prefix}js/*.coffee"
-				]
-				dest: '.'
-				ext: '.js'
-
-		gf.addWatcher 'coffee',
-			files: '<%= coffee.main.src %>'
-			tasks: 'coffee'
 
 	unless gf.hasSection 'concat'
 		gf.addSection 'concat',
@@ -70,15 +58,15 @@ Generator::gruntfile = ->
 				files:
 					'<%= concat.main.dest %>': '<%= concat.main.dest %>'
 
-	gf.addTask 'default', ['coffeelint', 'bower_concat', 'coffee', 'concat', 'uglify']
-	gf.addTask 'deploy', ['bower_concat', 'coffee', 'concat', 'uglify']
+	gf.addTask 'default', ['jshint', 'bower_concat', 'concat', 'uglify']
+	gf.addTask 'deploy', ['bower_concat', 'concat', 'uglify']
 
 	gf.save()
 
 Generator::files = ->
-	@template 'main.coffee', 'js/main.coffee'
-	@copyIfNot 'coffeelint.json'
+	@template 'main.js', 'js/main.js'
+	@copyIfNot '.jshintrc'
 
 Generator::dependencies = ->
-	@installFromNpm ['grunt', 'load-grunt-tasks', 'grunt-coffeelint', 'grunt-contrib-coffee', 'grunt-contrib-uglify',
-		'grunt-contrib-watch', 'grunt-contrib-concat', 'grunt-bower-concat']
+	@installFromNpm ['grunt', 'load-grunt-tasks', 'grunt-contrib-jshint', 'grunt-contrib-uglify', 'grunt-contrib-watch',
+		'grunt-contrib-concat', 'grunt-bower-concat']

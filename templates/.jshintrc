@@ -17,7 +17,6 @@
 	"strict": true,
 	"globals": {
 		"Modernizr": false,
-		"tamia": false,
-		"Component": false
+		"tamia": false
 	}
 }

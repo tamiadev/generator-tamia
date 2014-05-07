@@ -3,11 +3,11 @@
 ;(function($) {
 	'use strict';
 
-	class <%= cls %> extends Component {
-		init() {
+	var <%= cls %> = tamia.extend(tamia.Component, {
+		init: function() {
 			®
 		}
-	}
+	});
 
 	tamia.initComponents({'<%= name %>': <%= cls %>});
 
