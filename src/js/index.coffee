@@ -33,6 +33,7 @@ Generator::gruntfile = ->
 	unless gf.hasSection 'concat'
 		gf.addSection 'concat',
 			main:
+				nonull: true
 				src: [
 					'<%= bower_concat.main.dest %>'
 					"#{@htdocs_prefix}tamia/vendor/*.js"
