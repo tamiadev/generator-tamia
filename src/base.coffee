@@ -41,10 +41,11 @@ module.exports = class Generator extends yeoman.generators.Base
 		@grunt = grunt
 		@chalk = chalk
 		@moment = moment
-		@log.update = @_log_update
+		@log.update = @_logUpdate
 
-# @hookFor that doesn’t requre to be invoked from constructor.
-# Can be used inside @prompt.
+###
+@hookFor that doesn’t requre to be invoked from constructor. Can be used inside @prompt.
+###
 Generator::hookFor = (name, config) ->
 	config ?= {}
 
@@ -57,14 +58,19 @@ Generator::hookFor = (name, config) ->
 
 	this
 
+###
+Copies file if it doesn’t exist in a destination location.
+
+@param {String} filepath Destination file.
+###
 Generator::copyIfNot = (filepath) ->
 	@copy filepath, filepath  unless (fs.existsSync filepath)
 
 ###
 Renders template and saves it. Silently exists when file already exists.
 
-@param {String} template Template file name
-@param {String} [filepath] Destination file
+@param {String} template Template file name.
+@param {String} [filepath] Destination file.
 ###
 Generator::templateIfNot = (template, filepath) ->
 	filepath = template  unless filepath
@@ -73,8 +79,8 @@ Generator::templateIfNot = (template, filepath) ->
 ###
 Renders template, saves file and opens it in default editor.
 
-@param {String} template Template file name
-@param {String} [filepath] Destination file
+@param {String} template Template file name.
+@param {String} [filepath] Destination file.
 ###
 Generator::templateAndOpen = (template, filepath) ->
 	filepath = template  unless filepath
@@ -95,8 +101,8 @@ Generator::templateAndOpen = (template, filepath) ->
 ###
 Finds “cursor” position in template: line and column of “®” symbol.
 
-@param {String} File contents
-@returns {String} line:column
+@param {String} str File contents.
+@returns {String} line:column.
 ###
 Generator::getCursorPosition = (str) ->
 	[str, __] = str.split '®'
@@ -105,31 +111,61 @@ Generator::getCursorPosition = (str) ->
 	column = lines.pop().length + 1
 	"#{line}:#{column}"
 
+###
+Prints an error message and exits.
+
+@param {String} message Error message.
+###
 Generator::stop = (message) ->
 	@error message
 	process.exit()
 
+###
+Prints an error message and exits if file exists.
+
+@param {String} [filepath] Path to a file.
+###
 Generator::stopIfExists = (filepath) ->
 	return  unless fs.existsSync filepath
 	@stop "File `#{filepath}` already exists."
 
+###
+Writes file.
+
+@param {String} [filepath] Path to a file.
+@param {String} [content] Contents.
+###
 Generator::writeFile = (filepath, content) ->
 	fs.writeFileSync (path.join process.cwd(), filepath), content
 
-Generator::copyEditorConfig = ->
-	@copyIfNot '.editorconfig'
+###
+Chooses first existent folder.
 
-Generator::preferDir = (preferred) ->
-	for dir in preferred
+@param [Array] dirs Folders list.
+###
+Generator::preferDir = (dirs) ->
+	for dir in dirs
 		return dir  if fs.existsSync dir
 	null
 
+###
+Checks whether current folder is a Wordpress istallation.
+###
 Generator::isWordpress = ->
 	fs.existsSync 'wp-config.php'
 
+###
+Checks whether current folder is a Wordpress theme folder.
+###
 Generator::isWordpressTheme = ->
 	(fs.existsSync 'header.php') and (fs.existsSync 'footer.php') and (fs.existsSync 'functions.php')
 
+###
+Installs Bower packages.
+
+@param {Array} packages Packages.
+@param {Boolean} [skip_gitignore] Do not add `bower_components` to `.gitignore` (default: false).
+###
 Generator::installFromBower = (packages, skip_gitignore = false) ->
 	return  if @options['skip-bower']
 	return  if @options['skip-install']
@@ -146,6 +182,11 @@ Generator::installFromBower = (packages, skip_gitignore = false) ->
 	@templateIfNot filepath
 	@bowerInstall packages, {save: true}, ->
 
+###
+Installs npm packages.
+
+@param {Array} packages Packages.
+###
 Generator::installFromNpm = (packages) ->
 	return  if @options['skip-npm']
 	return  if @options['skip-install']
@@ -162,22 +203,31 @@ Generator::installFromNpm = (packages) ->
 	@templateIfNot filepath
 	@npmInstall packages, {'save-dev': true}, ->
 
-Generator::printLog = (func, messages...) ->
-	colorize = (msg) ->
-		msg.replace(/`(.*?)`/g, (m, str) -> chalk.cyan(str))
-
-	messages = @_.map messages, colorize
-	@log[func] messages...
-
+###
+Prints message (`console.log` alias).
+###
 Generator::echo = ->
 	console.log arguments...
 
+###
+Prints OK message with colorization (text `like this` becomes cyan).
+###
 Generator::ok = ->
-	@printLog 'ok', arguments...
+	@_printLog 'ok', arguments...
 
+###
+Prints error message with colorization (text `like this` becomes cyan).
+###
 Generator::error = ->
-	@printLog 'error', arguments...
+	@_printLog 'error', arguments...
 
+###
+Prints list in a table:
+*First row header* Row description.
+*Second header*    Row description.
+
+@params {Array} list List.
+###
 Generator::printList = (list) ->
 	width = @_.reduce list, ((max, row) ->
 		Math.max row[0].length, max
@@ -186,15 +236,35 @@ Generator::printList = (list) ->
 	@_.each list, (row) =>
 		@echo (@chalk.white(@_.pad row[0], width)), row[1]
 
+###
+Reads a JSON file.
+
+@param {String} [filepath] Path to a file.
+###
 Generator::readJsonFile = (filepath) ->
 	JSON.parse(@readFileAsString(filepath))
 
+###
+Reads a template from templates folder.
+
+@param {String} [filepath] Path to a file.
+###
 Generator::readTemplate = (filepath) ->
 	fs.readFileSync (path.join @sourceRoot(), filepath), encoding: 'utf-8'
 
+###
+Reads a template from templates folder and processes it.
+
+@param {String} [filepath] Path to a file.
+###
 Generator::process = (filepath) ->
 	@engine (@readTemplate filepath), this
 
+###
+Adds a pattern to `.gitignore`. Creates the file if it doesn’t exist.
+
+@param {String} pattern Ignore pattern.
+###
 Generator::gitIgnore = (pattern) ->
 	filepath = '.gitignore'
 	if fs.existsSync filepath
@@ -212,8 +282,8 @@ Generator::gitIgnore = (pattern) ->
 ###
 Opens file in default editor.
 
-@param {String} filepath Destination file
-@param {String} [curpos] Cursor position: "line:column"
+@param {String} filepath Destination file.
+@param {String} [curpos] Cursor position: "line:column".
 ###
 Generator::openInEditor = (filepath, curpos) ->
 	done = @async()
@@ -228,7 +298,14 @@ Deletes the specified filepath. Will deletes files and folders recursively.
 Generator::delete = ->
 	grunt.file.delete arguments...
 
-Generator::_log_update = ->
+Generator::_logUpdate = ->
 	@write (chalk.yellow '   update ')
 	@write (util.format.apply util, arguments) + '\n'
 	this
+
+Generator::_printLog = (func, messages...) ->
+	colorize = (msg) ->
+		msg.replace(/`(.*?)`/g, (m, str) -> chalk.cyan(str))
+
+	messages = @_.map messages, colorize
+	@log[func] messages...
