@@ -28,14 +28,6 @@ Scaffolds `styles` direcotory with base Stylus styles. Also installs Tâmia (tam
 
 Scaffolds `js` direcotory with base main.js file. Also adds JSHint, Uglify and creates/updates Gruntfile.
 
-### modernizr
-
-Adds Modernizr to project. Also updates Gruntfile.
-
-### imagemin
-
-Adds `imagemin` and `svgmin` tasks to Gruntfile.
-
 ### deploy
 
 Configures deploy using [shipit](https://github.com/sapegin/shipit).

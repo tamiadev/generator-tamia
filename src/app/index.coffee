@@ -23,12 +23,6 @@ Generator::askFor = ->
 			message: 'Would you like to use JavaScript?'
 			default: true
 		}
-		{
-			name: 'modernizr'
-			type: 'confirm'
-			message: 'Would you like to use Modernizr?'
-			default: true
-		}
 	]
 
 	@prompt prompts, (props) =>
@@ -39,5 +33,4 @@ Generator::all = ->
 	args = @args
 	(@hookFor 'tamia:framework', args)
 	(@hookFor 'tamia:styles', args)  if @styles
-	(@hookFor 'tamia:modernizr', args)  if @modernizr
 
