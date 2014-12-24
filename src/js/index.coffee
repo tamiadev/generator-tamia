@@ -24,10 +24,9 @@ Generator::gruntfile = ->
 				"#{@htdocs_prefix}js/main.js"
 			]
 			dest: "#{@htdocs_prefix}build/scripts.js"
-	});
+	})
 
 	gf.registerTask 'default', ['scripts']
-	# gf.registerTask 'deploy', ['scripts']
 
 	gf.save()
 

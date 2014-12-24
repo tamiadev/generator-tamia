@@ -19,7 +19,7 @@ module.exports = TamiaGruntfile = (filename='Gruntfile.js') ->
 # `class TamiaGruntfile extends gfc.Gruntfile` doesn’t work for some reason
 util.inherits(TamiaGruntfile, gfc.Gruntfile)
 
-TamiaGruntfile::detectInitCall = () ->
+TamiaGruntfile::detectInitCall = ->
 	initCalls = []
 	types.visit(@tree, {
 		visitCallExpression: (path) ->
