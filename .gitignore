@@ -1,6 +1,5 @@
 node_modules
 templates/tamia
 test/temp
-base.js
-/lib
+/*.js
 /*/index.js

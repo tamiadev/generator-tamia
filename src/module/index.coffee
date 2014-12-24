@@ -5,7 +5,6 @@
 
 fs = require 'fs'
 base = require '../base'
-Gruntfile = require '../lib/gruntfile'
 
 module.exports = class Generator extends base
 
@@ -44,7 +43,7 @@ Generator::init = ->
 Generator::gruntfile = ->
 	return  unless (fs.existsSync "#{@moduleBase}/script.js")
 
-	filename = 'Gruntfile.coffee'
+	filename = 'Gruntfile.js'
 	return  unless (fs.existsSync filename)
 
 	gf = @readFileAsString filename

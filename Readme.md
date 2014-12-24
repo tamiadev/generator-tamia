@@ -22,7 +22,7 @@ Installs/updates latest version of the [Tâmia](https://github.com/sapegin/tamia
 
 ### styles
 
-Scaffolds `styles` direcotory with base Stylus styles. Also installs Tâmia (tamia:framework) and creates/updates Gruntfile.
+Scaffolds `styles` direcotory with base Stylus styles. Also creates Gruntfile.
 
 ### js
 

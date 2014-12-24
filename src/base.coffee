@@ -204,6 +204,13 @@ Generator::installFromNpm = (packages) ->
 	@npmInstall packages, {'save-dev': true}, ->
 
 ###
+Creates Gruntfile and install necessary Grunt plugins.
+###
+Generator::initGrunt = ->
+	@templateIfNot 'Gruntfile.js'
+	@installFromNpm ['grunt', 'grunt-contrib-watch']
+
+###
 Prints message (`console.log` alias).
 ###
 Generator::echo = ->
