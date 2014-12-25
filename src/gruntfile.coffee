@@ -3,6 +3,7 @@
 path = require 'path'
 fs = require 'fs'
 gfc = require 'gruntfile-construct'
+gfcUtil = require 'gruntfile-construct/util'
 types = require 'ast-types'
 util = require 'util'
 chalk = require 'chalk'
@@ -25,18 +26,17 @@ TamiaGruntfile::detectInitCall = ->
 		visitCallExpression: (path) ->
 			node = path.node
 			if node.callee.name is 'require' and node.arguments[0].value is 'tamia-grunt'
-				initCalls.push([node, path])
+				initCalls.push(path)
 			@traverse(path)
 	})
 
 	throw new Error('Invocation of require("tamia-grunt")() not found')  if not initCalls.length
 	throw new Error('Too many invocations of require("tamia-grunt")()')  if initCalls.length > 1
 
-	@_initCall = initCalls[0][0]
-	@_initCallPath = initCalls[0][1]
+	@_initCallPath = initCalls[0]
 
 TamiaGruntfile::detectConfig = ->
-	callExpression = @parentPath(@_initCallPath, 'CallExpression').node
+	callExpression = gfcUtil.parentPath(@_initCallPath, 'CallExpression').node
 	throw new Error('require("tamia-grunt")() has no arguments')  if not callExpression.arguments or not callExpression.arguments.length
 
 	configObject = callExpression.arguments[1]
