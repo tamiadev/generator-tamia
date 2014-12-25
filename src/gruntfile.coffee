@@ -8,6 +8,8 @@ types = require 'ast-types'
 util = require 'util'
 chalk = require 'chalk'
 
+base = require './base'
+
 module.exports = TamiaGruntfile = (filename='Gruntfile.js') ->
 	# Copy template if file don’t exist
 	if not fs.existsSync(filename)
@@ -44,15 +46,16 @@ TamiaGruntfile::detectConfig = ->
 
 	@_configObject = configObject
 
-TamiaGruntfile::writeln = (text) ->
-	console.log (chalk.green 'Gruntfile:') + " #{text}"
+TamiaGruntfile::writeln = (msg) ->
+	msg = msg.replace(/`(.*?)`/g, (m, str) -> chalk.cyan(str))
+	console.log (chalk.green 'Gruntfile:') + " #{msg}"
 
 TamiaGruntfile::addTask = (task, config) ->
 	added = !@tasks[task]
 	gfc.Gruntfile::addTask.call(this, task, config)
-	@writeln "task '#{task}' added"  if added
+	@writeln "task `#{task}` added"  if added
 
 TamiaGruntfile::registerTask = (name, tasks) ->
 	registered = true
 	gfc.Gruntfile::registerTask.call(this, name, tasks)
-	@writeln tasks.join(', ') + " added to '#{name}' alias"  if registered
+	@writeln '`' + tasks.join('`, `') + "` added to `#{name}` alias"  if registered
