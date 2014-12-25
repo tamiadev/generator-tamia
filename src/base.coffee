@@ -10,6 +10,8 @@ grunt = require 'grunt'
 chalk = require 'chalk'
 moment = require 'moment'
 
+Gruntfile = require './gruntfile'
+
 module.exports = class Generator extends yeoman.generators.Base
 	constructor: (args, options) ->
 		super(args, options)
@@ -297,6 +299,18 @@ Deletes the specified filepath. Will deletes files and folders recursively.
 ###
 Generator::delete = ->
 	grunt.file.delete arguments...
+
+###
+Inits Gruntfile (creates if necessary).
+You have to call this function before using `@gf`.
+###
+Generator::initGruntfile = ->
+	# Copy template if file doesn’t exist
+	if not fs.existsSync(filename)
+		@template 'Gruntfile.js'
+		@ok (chalk.green 'Gruntfile:') + "created"
+
+	@gf = new Gruntfile()
 
 Generator::_logUpdate = ->
 	@write (chalk.yellow '   update ')

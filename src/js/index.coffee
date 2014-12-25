@@ -4,14 +4,13 @@
 'use strict'
 
 base = require '../base'
-Gruntfile = require '../gruntfile'
 
 module.exports = class Generator extends base
 
 Generator::gruntfile = ->
-	gf = new Gruntfile()
+	@initGruntfile()
 
-	gf.addTask('concat', {
+	@gf.addTask('concat', {
 		main:
 			nonull: true
 			src: [
@@ -26,9 +25,9 @@ Generator::gruntfile = ->
 			dest: "#{@htdocs_prefix}build/scripts.js"
 	})
 
-	gf.registerTask 'default', ['scripts']
+	@gf.registerTask 'default', ['scripts']
 
-	gf.save()
+	@gf.save()
 
 Generator::files = ->
 	@template 'main.js', 'js/main.js'

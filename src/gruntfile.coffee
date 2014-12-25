@@ -8,15 +8,7 @@ types = require 'ast-types'
 util = require 'util'
 chalk = require 'chalk'
 
-base = require './base'
-
 module.exports = TamiaGruntfile = (filename='Gruntfile.js') ->
-	# Copy template if file don’t exist
-	if not fs.existsSync(filename)
-		template = fs.readFileSync(path.join(__dirname, 'templates', filename), encoding: 'utf-8')
-		fs.writeFileSync(filename, template)
-		@writeln "created"
-
 	gfc.Gruntfile.call(this, filename, autosave: false)
 
 # `class TamiaGruntfile extends gfc.Gruntfile` doesn’t work for some reason

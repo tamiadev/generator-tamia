@@ -1,4 +1,5 @@
 // gruntjs.com
+// jshint node:true
 module.exports = function(grunt) {
 	'use strict';
 
@@ -9,5 +10,5 @@ module.exports = function(grunt) {
 		// All other Grunt plugins
 	});
 
-	grunt.registerTask('default', ['styles', 'images']);
+	grunt.registerTask('default', []);
 };

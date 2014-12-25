@@ -4,7 +4,6 @@
 'use strict'
 
 base = require '../base'
-Gruntfile = require '../gruntfile'
 
 module.exports = class Generator extends base
 
@@ -13,7 +12,11 @@ Generator::styles = ->
 	@template 'styles/styles.styl'
 
 Generator::gruntfile = ->
-	new Gruntfile()
+	@initGruntfile()
+
+	@gf.registerTask 'default', ['styles']
+
+	@gf.save()
 
 Generator::dependencies = ->
 	@installFromNpm ['grunt', 'tamia-grunt', 'grunt-contrib-watch', 'grunt-contrib-stylus', 'stylobuild']
