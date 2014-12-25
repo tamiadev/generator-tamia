@@ -21,9 +21,9 @@ Generator::tamia = ->
 	@delete tempPath, {force: true}  if fs.existsSync tempPath
 	@tarball distUrl, tempPath, =>
 		@delete 'tamia'  if fs.existsSync 'tamia'
-		@directory 'tamia/tamia', 'tamia/tamia'
-		@directory 'tamia/modules', 'tamia/modules'
-		@directory 'tamia/vendor', 'tamia/vendor'
+		@directory 'tamia/tamia-master/tamia', 'tamia/tamia'
+		@directory 'tamia/tamia-master/modules', 'tamia/modules'
+		@directory 'tamia/tamia-master/vendor', 'tamia/vendor'
 		done()
 
 Generator::dependencies = ->
