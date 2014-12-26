@@ -16,8 +16,12 @@ module.exports = class Generator extends yeoman.generators.Base
 	constructor: (args, options) ->
 		super(args, options)
 
-		@args = args
-		@options = options
+		# Config
+		package_name = require('./package').name
+		@userConfig = new Configstore package_name
+		@_.extend this, @userConfig.all
+		if not @authorName and options.name isnt 'init'
+			@stop 'Generator config not found. Please run yo tamia:init.'
 
 		# Single folder for all templates
 		@sourceRoot path.join __dirname, 'templates'
@@ -31,13 +35,6 @@ module.exports = class Generator extends yeoman.generators.Base
 
 		# Optional CLI argument: @name
 		@argument 'name', {type: String, required: false}
-
-		# User data: ~/.config/configstore/yeoman-generator.yml
-		# TODO: Ask to fill values if they are default
-		@config = new Configstore 'yeoman-generator',
-			authorName: 'John Smith'
-			authorUrl: 'http://example.com'
-		@_.extend this, @config.all
 
 		# Expose useful libraries
 		@grunt = grunt
