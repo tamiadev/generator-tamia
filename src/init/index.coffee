@@ -6,7 +6,7 @@ base = require '../base'
 
 module.exports = class Generator extends base
 
-Generator::askConfig = () ->
+Generator::askConfig = ->
 	done = @async()
 	prompts = [
 		{
