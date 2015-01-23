@@ -1,14 +1,15 @@
-# Tâmia project generator for Yeoman [![Build Status](https://travis-ci.org/sapegin/generator-tamia.png)](https://travis-ci.org/sapegin/generator-tamia)
+# Tâmia project generator for Yeoman
 
-Scaffolds out [Tâmia](https://github.com/sapegin/tamia) and lots of other stuff.
+[![Build Status](https://travis-ci.org/tamiadev/generator-tamia.png)](https://travis-ci.org/tamiadev/generator-tamia)
+
+Scaffolds out [Tâmia](https://github.com/tamiadev/tamia) and lots of other stuff.
 
 
 ## Getting started
 
-- Make sure you have [yo](https://github.com/yeoman/yo) installed: `npm install -g yo`
-- Install the generator locally or globally: `npm install [-g] generator-tamia`
-- Run: `yo tamia`
-
+1. Make sure you have [yo](https://github.com/yeoman/yo) installed: `npm install -g yo`.
+2. Install the generator locally or globally: `npm install [-g] generator-tamia`.
+3. Run: `yo tamia`.
 
 ## Sub-generators
 
@@ -18,7 +19,7 @@ $ yo tamia:framework
 
 ### framework
 
-Installs/updates latest version of the [Tâmia](https://github.com/sapegin/tamia) Stylus framework. Also installs jQuery.
+Installs/updates latest version of the [Tâmia](https://github.com/tamiadev/tamia) Stylus framework. Also installs jQuery.
 
 ### styles
 
@@ -84,4 +85,4 @@ Skips installation of Bower packages, npm backages or both.
 
 ## License
 
-The MIT License, see the included `License.md` file.
+The MIT License, see the included [License.md](License.md) file.
