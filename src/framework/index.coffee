@@ -1,6 +1,6 @@
 # Installs/updates latest version of the Tâmia Stylus framework.
 # Also installs jQuery.
-# https://github.com/sapegin/tamia
+# https://github.com/tamiadev/tamia
 
 'use strict'
 
@@ -17,7 +17,7 @@ Generator::checkUpdate = ->
 Generator::tamia = ->
 	done = @async()
 	tempPath = path.join @sourceRoot(), 'tamia'
-	distUrl = 'https://github.com/sapegin/tamia/archive/master.tar.gz'
+	distUrl = 'https://github.com/tamiadev/tamia/archive/master.tar.gz'
 	@delete tempPath, {force: true}  if fs.existsSync tempPath
 	@tarball distUrl, tempPath, =>
 		@delete 'tamia'  if fs.existsSync 'tamia'
