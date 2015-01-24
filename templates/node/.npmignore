@@ -1,0 +1,8 @@
+node_modules
+test
+.editorconfig
+.gitignore
+.jscs.json
+.jshintrc
+.travis.yml
+Contributing.md
