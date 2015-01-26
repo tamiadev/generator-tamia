@@ -1,12 +1,10 @@
 'use strict'
 
 path = require 'path'
-fs = require 'fs'
 util = require 'util'
 exec = (require 'child_process').exec
 Configstore = require 'configstore'
 yeoman = require 'yeoman-generator'
-grunt = require 'grunt'
 chalk = require 'chalk'
 moment = require 'moment'
 
@@ -41,7 +39,6 @@ module.exports = class Generator extends yeoman.generators.Base
 		@conflicter.force = true
 
 		# Expose useful libraries
-		@grunt = grunt
 		@chalk = chalk
 		@moment = moment
 		@log.update = @_logUpdate
@@ -181,7 +178,7 @@ Generator::installFromBower = (packages, skip_gitignore = false) ->
 		packages = @_.filter packages, ((pkg) -> not json?.dependencies[pkg])
 	return  if not packages.length
 
-	@echo 'Installing ' + (@grunt.log.wordlist packages) + ' from Bower...'
+	@echo 'Installing ' + (@wordlist packages) + ' from Bower...'
 	@gitIgnore 'bower_components'  unless skip_gitignore
 	@templateIfNot filepath
 	@bowerInstall packages, {save: true}, ->
@@ -205,7 +202,7 @@ Generator::installFromNpm = (packages) ->
 	packages = @_.filter packages, ((pkg) -> not json?.devDependencies?[pkg])
 	return  unless packages.length
 
-	@echo 'Installing ' + (@grunt.log.wordlist packages) + ' from npm...'
+	@echo 'Installing ' + (@wordlist packages) + ' from npm...'
 	@gitIgnore 'node_modules'
 	@templateIfNot filepath
 	@npmInstall packages, {'save-dev': true}, ->
@@ -229,18 +226,28 @@ Generator::error = ->
 	@_printLog 'error', arguments...
 
 ###
+Prints array as a comma separated list.
+
+@params {Array} items Items array.
+###
+Generator::wordlist = (items) ->
+	items = items.map (item) ->
+		return chalk.cyan(item)
+	return items.join(', ')
+
+###
 Prints list in a table:
 *First row header* Row description.
 *Second header*    Row description.
 
-@params {Array} list List.
+@params {Array} items Items array.
 ###
-Generator::printList = (list) ->
-	width = @_.reduce list, ((max, row) ->
+Generator::printList = (items) ->
+	width = @_.reduce items, ((max, row) ->
 		Math.max row[0].length, max
 		), 0
 
-	@_.each list, (row) =>
+	@_.each items, (row) =>
 		@echo (@chalk.white(@_.pad row[0], width)), row[1]
 
 ###

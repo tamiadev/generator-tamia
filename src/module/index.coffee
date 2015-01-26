@@ -4,11 +4,13 @@
 'use strict'
 
 base = require '../base'
+glob = require 'glob'
 
 module.exports = class Generator extends base
 
 Generator::showList = ->
-	modules = @grunt.file.expand {cwd: 'tamia/modules', filter: 'isDirectory'}, '*'
+	modules = glob.sync '*', {cwd: 'tamia/modules'}
+
 	modules = @_.map modules, (name) =>
 		readme = @read "tamia/modules/#{name}/Readme.md"
 		m = readme.match /^#.*?\n+([^\n]+?)\n/
@@ -17,7 +19,7 @@ Generator::showList = ->
 	@modules = @_.pluck modules, 0
 
 	@echo ''
-	@grunt.log.subhead 'Available modules:'
+	@echo @chalk.bold 'Available modules:'
 	@printList modules
 	@echo ''
 
