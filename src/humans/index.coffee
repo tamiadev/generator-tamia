@@ -3,7 +3,6 @@
 'use strict'
 
 base = require '../base'
-fs = require 'fs'
 
 module.exports = class Generator extends base
 

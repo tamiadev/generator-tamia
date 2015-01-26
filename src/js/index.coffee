@@ -8,9 +8,9 @@ base = require '../base'
 module.exports = class Generator extends base
 
 Generator::gruntfile = ->
-	@initGruntfile()
+	gf = @initGruntfile()
 
-	@gf.addTask('concat', {
+	gf.addTask('concat', {
 		main:
 			nonull: true
 			src: [
@@ -25,14 +25,22 @@ Generator::gruntfile = ->
 			dest: "#{@htdocs_prefix}build/scripts.js"
 	})
 
-	@gf.registerTask 'default', ['scripts']
+	gf.registerTask 'default', ['scripts']
 
-	@gf.save()
+	@saveGruntfile gf
 
 Generator::files = ->
 	@template 'main.js', 'js/main.js'
 	@copyIfNot '.jshintrc'
 
 Generator::dependencies = ->
-	@installFromNpm ['grunt', 'tamia-grunt', 'grunt-contrib-jshint', 'grunt-contrib-uglify', 'grunt-contrib-watch',
-		'grunt-contrib-concat', 'grunt-bower-concat']
+	@installFromNpm [
+		'grunt'
+		'tamia-grunt'
+		'grunt-contrib-jshint'
+		'grunt-contrib-uglify'
+		'grunt-contrib-watch'
+		'grunt-contrib-concat'
+		'grunt-bower-concat'
+		'grunt-modernizr'
+	]

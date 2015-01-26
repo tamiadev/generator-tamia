@@ -3,7 +3,6 @@
 
 'use strict'
 
-fs = require 'fs'
 base = require '../base'
 
 module.exports = class Generator extends base
@@ -11,7 +10,7 @@ module.exports = class Generator extends base
 Generator::showList = ->
 	modules = @grunt.file.expand {cwd: 'tamia/modules', filter: 'isDirectory'}, '*'
 	modules = @_.map modules, (name) =>
-		readme = @readFileAsString "tamia/modules/#{name}/Readme.md"
+		readme = @read "tamia/modules/#{name}/Readme.md"
 		m = readme.match /^#.*?\n+([^\n]+?)\n/
 		[name, m && m[1] || '']
 
@@ -41,31 +40,31 @@ Generator::init = ->
 	@moduleBase = "tamia/modules/#{@module}"
 
 Generator::gruntfile = ->
-	return  unless (fs.existsSync "#{@moduleBase}/script.js")
+	return  unless (@exists "#{@moduleBase}/script.js")
 
 	filename = 'Gruntfile.js'
-	return  unless (fs.existsSync filename)
+	return  unless (@exists filename)
 
-	gf = @readFileAsString filename
+	gf = @read filename
 	importStr = "'tamia/modules/#{@module}/script.js'"
 	return  unless (gf.indexOf importStr) is -1
 
 	gf = gf.replace /(\n\t*)('tamia\/tamia\/component.js',?)/, '$1$2$1' + importStr
-	@writeFile filename, gf
+	@write filename, gf
 
 	@log.update filename
 
 Generator::styles = ->
-	return  unless (fs.existsSync "#{@moduleBase}/index.styl")
+	return  unless (@exists "#{@moduleBase}/index.styl")
 
 	filename = 'styles/index.styl'
-	return  unless (fs.existsSync filename)
+	return  unless (@exists filename)
 
-	stylus = @readFileAsString filename
+	stylus = @read filename
 	importStr = "@import \"modules/#{@module}\";"
 	return  unless (stylus.indexOf importStr) is -1
 
 	stylus = stylus.replace /(@import ['"]tamia['"];?)/, '$1\n' + importStr
-	@writeFile filename, stylus
+	@write filename, stylus
 
 	@log.update filename

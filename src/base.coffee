@@ -36,6 +36,10 @@ module.exports = class Generator extends yeoman.generators.Base
 		# Optional CLI argument: @name
 		@argument 'name', {type: String, required: false}
 
+		# Disable collision checker
+		# TODO: Find a way to do it per file
+		@conflicter.force = true
+
 		# Expose useful libraries
 		@grunt = grunt
 		@chalk = chalk
@@ -63,7 +67,17 @@ Copies file if it doesn’t exist in a destination location.
 @param {String} filepath Destination file.
 ###
 Generator::copyIfNot = (filepath) ->
-	@copy filepath, filepath  unless (fs.existsSync filepath)
+	@copy filepath, filepath  unless (@exists filepath)
+
+###
+Renders template and saves it.
+
+@param {String} template Template file name.
+@param {String} [filepath] Destination file.
+###
+Generator::template = (template, filepath) ->
+	filepath = template  unless filepath
+	@fs.copyTpl @templatePath(template), @destinationPath(filepath), this
 
 ###
 Renders template and saves it. Silently exists when file already exists.
@@ -73,7 +87,7 @@ Renders template and saves it. Silently exists when file already exists.
 ###
 Generator::templateIfNot = (template, filepath) ->
 	filepath = template  unless filepath
-	@template template, filepath  unless (fs.existsSync filepath)
+	@template template, filepath  unless (@exists filepath)
 
 ###
 Renders template, saves file and opens it in default editor.
@@ -125,17 +139,8 @@ Prints an error message and exits if file exists.
 @param {String} [filepath] Path to a file.
 ###
 Generator::stopIfExists = (filepath) ->
-	return  unless fs.existsSync filepath
+	return  unless @exists filepath
 	@stop "File `#{filepath}` already exists."
-
-###
-Writes file.
-
-@param {String} [filepath] Path to a file.
-@param {String} [content] Contents.
-###
-Generator::writeFile = (filepath, content) ->
-	fs.writeFileSync (path.join process.cwd(), filepath), content
 
 ###
 Chooses first existent folder.
@@ -144,20 +149,20 @@ Chooses first existent folder.
 ###
 Generator::preferDir = (dirs) ->
 	for dir in dirs
-		return dir  if fs.existsSync dir
+		return dir  if @exists dir
 	null
 
 ###
 Checks whether current folder is a Wordpress istallation.
 ###
 Generator::isWordpress = ->
-	fs.existsSync 'wp-config.php'
+	@exists 'wp-config.php'
 
 ###
 Checks whether current folder is a Wordpress theme folder.
 ###
 Generator::isWordpressTheme = ->
-	(fs.existsSync 'header.php') and (fs.existsSync 'footer.php') and (fs.existsSync 'functions.php')
+	(@exists 'header.php') and (@exists 'footer.php') and (@exists 'functions.php')
 
 ###
 Installs Bower packages.
@@ -171,8 +176,8 @@ Generator::installFromBower = (packages, skip_gitignore = false) ->
 	filepath = 'bower.json'
 
 	# Filter out already installed modules to speed up installation
-	if fs.existsSync filepath
-		json = @readJsonFile filepath
+	if @exists filepath
+		json = @fs.readJSON filepath
 		packages = @_.filter packages, ((pkg) -> not json?.dependencies[pkg])
 	return  if not packages.length
 
@@ -191,11 +196,14 @@ Generator::installFromNpm = (packages) ->
 	return  if @options['skip-install']
 	filepath = 'package.json'
 
+	# Create package.json if needed
+	unless @exists filepath
+		@template filepath
+
 	# Filter out already installed modules to speed up installation
-	if fs.existsSync filepath
-		json = @readJsonFile filepath
-		packages = @_.filter packages, ((pkg) -> not json?.devDependencies[pkg])
-	return  if not packages.length
+	json = @fs.readJSON filepath
+	packages = @_.filter packages, ((pkg) -> not json?.devDependencies?[pkg])
+	return  unless packages.length
 
 	@echo 'Installing ' + (@grunt.log.wordlist packages) + ' from npm...'
 	@gitIgnore 'node_modules'
@@ -236,20 +244,12 @@ Generator::printList = (list) ->
 		@echo (@chalk.white(@_.pad row[0], width)), row[1]
 
 ###
-Reads a JSON file.
-
-@param {String} [filepath] Path to a file.
-###
-Generator::readJsonFile = (filepath) ->
-	JSON.parse(@readFileAsString(filepath))
-
-###
 Reads a template from templates folder.
 
 @param {String} [filepath] Path to a file.
 ###
 Generator::readTemplate = (filepath) ->
-	fs.readFileSync (path.join @sourceRoot(), filepath), encoding: 'utf-8'
+	@read @templatePath(filepath)
 
 ###
 Reads a template from templates folder and processes it.
@@ -266,17 +266,17 @@ Adds a pattern to `.gitignore`. Creates the file if it doesn’t exist.
 ###
 Generator::gitIgnore = (pattern) ->
 	filepath = '.gitignore'
-	if fs.existsSync filepath
-		ignores = (@readFileAsString filepath).split '\n'
+	if @exists filepath
+		ignores = (@read filepath).split '\n'
 	else
 		ignores = []
 
 	return  if pattern in ignores
 
 	ignores.push pattern
-	@writeFile filepath, (ignores.join '\n')
+	@write filepath, (ignores.join '\n')
 
-	@ok "`#{pattern}` added to .gitignore."
+	@ok "`#{pattern}` added to .gitignore"
 
 ###
 Opens file in default editor.
@@ -290,24 +290,59 @@ Generator::openInEditor = (filepath, curpos) ->
 	exec "$EDITOR '#{filepath}'", done
 
 ###
+Writes file to disk.
+
+@param {String} filepath File path.
+@param {String} contents Contents to write.
+###
+Generator::write = ->
+	@fs.write arguments...
+
+###
+Reads file from disk.
+
+@param {String} filepath File path.
+@return {String}
+###
+Generator::read = ->
+	@fs.read arguments...
+
+###
 Deletes the specified filepath. Will deletes files and folders recursively.
 
 @param {String} filepath Path to delete.
 ###
 Generator::delete = ->
-	grunt.file.delete arguments...
+	@fs.delete arguments...
+
+###
+Check whether file exists.
+
+@param {String} filepath File path.
+###
+Generator::exists = ->
+	@fs.exists arguments...
 
 ###
 Inits Gruntfile (creates if necessary).
-You have to call this function before using `@gf`.
+@return {Gruntfile}
 ###
 Generator::initGruntfile = ->
-	# Copy template if file doesn’t exist
-	if not fs.existsSync(filename)
-		@template 'Gruntfile.js'
-		@ok (chalk.green 'Gruntfile:') + "created"
+	filename = 'Gruntfile.js'
 
-	@gf = new Gruntfile()
+	# Copy template if file doesn’t exist
+	if not @exists filename
+		@template filename
+	gruntfile = @read filename
+
+	return new Gruntfile({file: filename, source: gruntfile})
+
+###
+Saves Gruntfile.
+@param {Gruntfile} gruntfile Gruntfile class instance.
+###
+Generator::saveGruntfile = (gruntfile) ->
+	@write gruntfile.file, gruntfile.code()
 
 Generator::_logUpdate = ->
 	@write (chalk.yellow '   update ')

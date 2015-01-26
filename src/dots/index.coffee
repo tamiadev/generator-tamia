@@ -3,7 +3,6 @@
 'use strict'
 
 base = require '../base'
-fs = require 'fs'
 
 module.exports = class Generator extends base
 
@@ -28,7 +27,7 @@ Generator::askFor = ->
 
 	# Do not ask about already created files
 	for file in files
-		unless fs.existsSync file.name
+		unless @exists file.name
 			newFiles.push file
 
 	@stop 'All dotfiles are already created in this project.'  unless newFiles.length
@@ -52,10 +51,10 @@ Generator::copy = ->
 
 	# Add Travis CI badge to Readme
 	if '.travis.yml' in @files
-		readme = @readFileAsString 'Readme.md'
+		readme = @read 'Readme.md'
 		travis = @process 'Readme_travis.md'
 		lines = readme.split '\n'
 		lines[0] = @_.trim "#{lines[0]} #{travis}"
 		readme = lines.join '\n'
-		@writeFile 'Readme.md', readme
+		@write 'Readme.md', readme
 		@log.update 'Readme.md'

@@ -4,23 +4,20 @@
 
 'use strict'
 
-fs = require 'fs'
-util = require 'util'
-path = require 'path'
 base = require '../base'
 
 module.exports = class Generator extends base
 
 Generator::checkUpdate = ->
-	@update = fs.existsSync 'tamia'
+	@update = @exists 'tamia'
 
 Generator::tamia = ->
 	done = @async()
-	tempPath = path.join @sourceRoot(), 'tamia'
+	tempPath = @templatePath('tamia')
 	distUrl = 'https://github.com/tamiadev/tamia/archive/master.tar.gz'
-	@delete tempPath, {force: true}  if fs.existsSync tempPath
+	@delete tempPath, {force: true}  if @exists tempPath
 	@tarball distUrl, tempPath, =>
-		@delete 'tamia'  if fs.existsSync 'tamia'
+		@delete 'tamia'  if @exists 'tamia'
 		@directory 'tamia/tamia-master/tamia', 'tamia/tamia'
 		@directory 'tamia/tamia-master/modules', 'tamia/modules'
 		@directory 'tamia/tamia-master/vendor', 'tamia/vendor'

@@ -12,11 +12,18 @@ Generator::styles = ->
 	@template 'styles/styles.styl'
 
 Generator::gruntfile = ->
-	@initGruntfile()
+	gf = @initGruntfile()
 
-	@gf.registerTask 'default', ['styles']
+	gf.registerTask 'default', ['styles']
 
-	@gf.save()
+	@saveGruntfile gf
 
 Generator::dependencies = ->
-	@installFromNpm ['grunt', 'tamia-grunt', 'grunt-contrib-watch', 'grunt-contrib-stylus', 'stylobuild']
+	@installFromNpm [
+		'grunt'
+		'tamia-grunt'
+		'grunt-contrib-watch'
+		'grunt-contrib-stylus'
+		'grunt-modernizr'
+		'stylobuild'
+	]

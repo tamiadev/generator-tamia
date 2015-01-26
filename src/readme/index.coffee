@@ -3,7 +3,6 @@
 'use strict'
 
 base = require '../base'
-fs = require 'fs'
 
 module.exports = class Generator extends base
 
@@ -19,21 +18,21 @@ Generator::askFor = ->
 	@travis = false
 
 	prompts = []
-	unless fs.existsSync 'License.md'
+	unless @exists 'License.md'
 		prompts.push {
 			type: 'confirm'
 			name: 'license'
 			message: 'Do you need license?'
 			default: true
 		}
-	unless fs.existsSync 'Changelog.md'
+	unless @exists 'Changelog.md'
 		prompts.push {
 			type: 'confirm'
 			name: 'changelog'
 			message: 'Do you need changelog?'
 			default: true
 		}
-	unless fs.existsSync 'Contributing.md'
+	unless @exists 'Contributing.md'
 		prompts.push {
 			type: 'confirm'
 			name: 'contributing'
@@ -50,9 +49,9 @@ Generator::readme = ->
 	@license = @process 'Readme_license.md'  if @license
 	@changelog = @process 'Readme_changelog.md'  if @changelog
 	@contributing = @process 'Readme_changelog.md'  if @contributing
-	@travis = @process 'Readme_travis.md'  if fs.existsSync '.travis.yml'
+	@travis = @process 'Readme_travis.md'  if @exists '.travis.yml'
 
-	unless fs.existsSync filepath_readme
+	unless @exists filepath_readme
 		readme = @process filepath_readme
 
 		if @travis
@@ -62,7 +61,7 @@ Generator::readme = ->
 
 		@log.create filepath_readme
 	else
-		readme = @readFileAsString filepath_readme
+		readme = @read filepath_readme
 
 		if @license
 			readme += @license
@@ -75,7 +74,7 @@ Generator::readme = ->
 
 		@log.update filepath_readme
 
-	@writeFile filepath_readme, (@_.trim readme)
+	@write filepath_readme, (@_.trim readme)
 
 Generator::rest = ->
 	@templateIfNot 'License.md'  if @license

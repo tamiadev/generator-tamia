@@ -6,7 +6,6 @@
 'use strict'
 
 base = require '../base'
-fs = require 'fs'
 
 module.exports = class Generator extends base
 
@@ -40,7 +39,7 @@ Generator::files = ->
 
 	write = =>
 		if @js and bowerJson
-			bower = @readJsonFile bowerJson
+			bower = @fs.readJSON bowerJson
 			jqueryVer = bower.version
 			if @lang is 'ru'
 				@jqueryPath = "http://yandex.st/jquery/#{jqueryVer}/jquery.min.js"
@@ -53,7 +52,7 @@ Generator::files = ->
 
 	if @js
 		bowerJson = 'bower_components/jquery/bower.json'
-		if fs.existsSync bowerJson
+		if @exists bowerJson
 			@localJquery = true
 			write()
 		else
