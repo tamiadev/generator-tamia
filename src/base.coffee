@@ -5,6 +5,7 @@ util = require 'util'
 exec = (require 'child_process').exec
 Configstore = require 'configstore'
 yeoman = require 'yeoman-generator'
+through = require 'through2'
 chalk = require 'chalk'
 moment = require 'moment'
 
@@ -34,9 +35,10 @@ module.exports = class Generator extends yeoman.generators.Base
 		# Optional CLI argument: @name
 		@argument 'name', {type: String, required: false}
 
-		# Disable collision checker
-		# TODO: Find a way to do it per file
-		@conflicter.force = true
+		@skipConflicter = [
+			'.yo-rc.json'
+			'.yo-rc-global.json'
+		]
 
 		# Expose useful libraries
 		@chalk = chalk
@@ -281,7 +283,7 @@ Generator::gitIgnore = (pattern) ->
 	return  if pattern in ignores
 
 	ignores.push pattern
-	@write filepath, (ignores.join '\n')
+	@writeForce filepath, (ignores.join '\n')
 
 	@ok "`#{pattern}` added to .gitignore"
 
@@ -303,6 +305,16 @@ Writes file to disk.
 @param {String} contents Contents to write.
 ###
 Generator::write = ->
+	@fs.write arguments...
+
+###
+Writes file to disk (skips collision check).
+
+@param {String} filepath File path.
+@param {String} contents Contents to write.
+###
+Generator::writeForce = (filepath, contents) ->
+	@skipConflicter.push path.basename filepath
 	@fs.write arguments...
 
 ###
@@ -349,7 +361,7 @@ Saves Gruntfile.
 @param {Gruntfile} gruntfile Gruntfile class instance.
 ###
 Generator::saveGruntfile = (gruntfile) ->
-	@write gruntfile.file, gruntfile.code()
+	@writeForce gruntfile.file, gruntfile.code()
 
 Generator::_logUpdate = ->
 	@write (chalk.yellow '   update ')
@@ -362,3 +374,34 @@ Generator::_printLog = (func, messages...) ->
 
 	messages = @_.map messages, colorize
 	@log[func] messages...
+
+###
+Write memory fs file to disk and logging results.
+Instead of internal Yeomen’s _writeFiles function this version uses custom @skipConflicter array of files that should
+be excluded from collision check.
+
+@param {Function} done Callback once files are written
+###
+Generator::_writeFiles = (done) ->
+	self = this
+
+	conflictChecker = through.obj (file, enc, cb) ->
+		stream = this
+
+		# These files should not be processed by the conflicter. Just pass through
+		filename = path.basename file.path
+		if filename in self.skipConflicter
+			@push file
+			return cb()
+
+		self.conflicter.checkForCollision file.path, file.contents, (err, status) ->
+			return cb(err)  if err
+			if status isnt 'skip'
+				stream.push file
+			cb()
+
+		self.conflicter.resolve()
+
+	transformStreams = @_transformStreams.concat [conflictChecker]
+	@fs.commit transformStreams, ->
+		done()

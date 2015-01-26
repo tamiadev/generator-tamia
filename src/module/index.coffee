@@ -52,7 +52,7 @@ Generator::gruntfile = ->
 	return  unless (gf.indexOf importStr) is -1
 
 	gf = gf.replace /(\n\t*)('tamia\/tamia\/component.js',?)/, '$1$2$1' + importStr
-	@write filename, gf
+	@writeForce filename, gf
 
 	@log.update filename
 
@@ -67,6 +67,6 @@ Generator::styles = ->
 	return  unless (stylus.indexOf importStr) is -1
 
 	stylus = stylus.replace /(@import ['"]tamia['"];?)/, '$1\n' + importStr
-	@write filename, stylus
+	@writeForce filename, stylus
 
 	@log.update filename

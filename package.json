@@ -28,6 +28,7 @@
     "gruntfile-construct": "git://github.com/albburtsev/gruntfile-construct",
     "lodash": "~2.4.1",
     "moment": "~2.8.4",
+    "through2": "~0.6.3",
     "yeoman-generator": "~0.18.5"
   },
   "devDependencies": {
