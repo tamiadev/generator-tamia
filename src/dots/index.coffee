@@ -21,6 +21,9 @@ Generator::askFor = ->
 		},
 		{
 			name: '.travis.yml'
+		},
+		{
+			name: '.editorconfig'
 		}
 	]
 	newFiles = []
