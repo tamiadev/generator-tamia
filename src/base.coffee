@@ -19,7 +19,7 @@ module.exports = class Generator extends yeoman.generators.Base
 		package_name = require('./package').name
 		@userConfig = new Configstore package_name
 		@_.extend this, @userConfig.all
-		if not @authorName and options.name isnt 'init'
+		if not @authorName and options.namespace isnt 'tamia:init'
 			@stop 'Generator config not found. Please run yo tamia:init.'
 
 		# Single folder for all templates
