@@ -21,19 +21,19 @@
     "prepublish": "coffee -o ./ -c src/"
   },
   "dependencies": {
-    "ast-types": "~0.6.7",
-    "chalk": "~0.5.1",
-    "configstore": "~0.3.1",
-    "glob": "~4.3.5",
+    "ast-types": "~0.6.15",
+    "chalk": "~1.0.0",
+    "configstore": "~0.3.2",
     "gruntfile-construct": "git://github.com/albburtsev/gruntfile-construct",
-    "lodash": "~2.4.1",
-    "moment": "~2.8.4",
+    "glob": "~4.4.1",
+    "lodash": "~3.3.1",
+    "moment": "~2.9.0",
     "through2": "~0.6.3",
-    "yeoman-generator": "~0.18.5"
+    "yeoman-generator": "~0.18.9"
   },
   "devDependencies": {
-    "coffee-script": "~1.8.0",
-    "coffeelint": "~1.8.1"
+    "coffee-script": "~1.9.1",
+    "coffeelint": "~1.9.2"
   },
   "engines": {
     "node": ">=0.10.0"
