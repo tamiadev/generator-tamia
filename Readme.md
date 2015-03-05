@@ -69,6 +69,10 @@ You can use them without Tâmia.
 
 Creates new jQuery plugin.
 
+### wordpress
+
+Installs latest version of WordPress.
+
 
 ## Options
 

@@ -21,15 +21,17 @@
     "prepublish": "coffee -o ./ -c src/"
   },
   "dependencies": {
-    "ast-types": "~0.6.15",
+    "ast-types": "~0.7.0",
     "chalk": "~1.0.0",
     "configstore": "~0.3.2",
     "gruntfile-construct": "git://github.com/albburtsev/gruntfile-construct",
-    "glob": "~4.4.1",
+    "glob": "~4.4.2",
     "lodash": "~3.3.1",
     "moment": "~2.9.0",
+    "ncp": "~2.0.0",
+    "rimraf": "~2.3.1",
     "through2": "~0.6.3",
-    "yeoman-generator": "~0.18.9"
+    "yeoman-generator": "~0.18.10"
   },
   "devDependencies": {
     "coffee-script": "~1.9.1",
