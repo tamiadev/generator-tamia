@@ -15,7 +15,7 @@ Generator::tamia = ->
 	done = @async()
 	tempPath = @templatePath('tamia')
 	distUrl = 'https://github.com/tamiadev/tamia/archive/master.tar.gz'
-	@delete tempPath, {force: true}  if @exists tempPath
+	@delete tempPath  if @exists tempPath
 	@tarball distUrl, tempPath, =>
 		@delete 'tamia'  if @exists 'tamia'
 		@directory 'tamia/tamia-master/tamia', 'tamia/tamia'

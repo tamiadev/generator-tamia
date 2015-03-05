@@ -331,8 +331,9 @@ Deletes the specified filepath. Will deletes files and folders recursively.
 
 @param {String} filepath Path to delete.
 ###
-Generator::delete = ->
+Generator::delete = (filepath) ->
 	@fs.delete arguments...
+	# @fs.delete filepath, {force: true}  if @exists filepath
 
 ###
 Check whether file exists.
