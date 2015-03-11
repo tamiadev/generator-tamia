@@ -1,3 +1,3 @@
 ## Author
 
-* [Artem Sapegin](http://sapegin.me/)
+* [<%= authorName %>](<%= authorUrl %>)

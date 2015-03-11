@@ -152,18 +152,6 @@ Generator::preferDir = (dirs) ->
 	null
 
 ###
-Checks whether current folder is a Wordpress istallation.
-###
-Generator::isWordpress = ->
-	@exists 'wp-config.php'
-
-###
-Checks whether current folder is a Wordpress theme folder.
-###
-Generator::isWordpressTheme = ->
-	(@exists 'header.php') and (@exists 'footer.php') and (@exists 'functions.php')
-
-###
 Installs Bower packages.
 
 @param {Array} packages Packages.

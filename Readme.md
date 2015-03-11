@@ -55,7 +55,7 @@ Creates new HTML file.
 
 ### dots
 
-Creates dotfiles: `.jshintrc`, `coffeelint.json`, `.jscs.json`, `.travis.yml`.
+Creates dotfiles: `.jshintrc`, `coffeelint.json`, `.jscs.json`, `.editorconfig`, `.travis.yml`.
 
 ### humans
 
@@ -73,6 +73,10 @@ Creates new jQuery plugin.
 
 Installs latest version of WordPress.
 
+### wptheme
+
+Scaffolds basic WordPress theme.
+
 
 ## Options
 
@@ -82,7 +86,7 @@ $ yo tamia:framework --skip-bower
 
 ### `--skip-bower`, `--skip-npm`, `--skip-install`
 
-Skips installation of Bower packages, npm backages or both.
+Skips installation of Bower packages, npm packages or both.
 
 
 ---
