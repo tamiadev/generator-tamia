@@ -72,10 +72,9 @@ $table_prefix  = 'wp_';
 define('WPLANG', '<%= lang %>');
 
 /**
- * Uploads directory and URL.
+ * Uploads directory.
  */
-define('WP_CONTENT_DIR', dirname(__FILE__) . '/uploads');
-// define('WP_CONTENT_URL', 'http://uploads.example.com/');
+define('UPLOADS', dirname(__FILE__) . '/uploads');
 
 /**
  * Disable file editing in dashboard.
