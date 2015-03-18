@@ -2,6 +2,7 @@
 #
 # Options:
 #   --no-js: Do not create links to jQuery and scripts file.
+#   --oldie: Include jQuery 1.x for IE8.
 
 'use strict'
 
@@ -11,6 +12,7 @@ module.exports = class Generator extends base
 
 Generator::options = ->
 	@js = @options.js ? true
+	@oldie = @options.oldie ? false
 
 Generator::askFor = ->
 	done = @async()
@@ -24,7 +26,7 @@ Generator::askFor = ->
 			name: 'lang'
 			message: 'Language'
 			default: 'en'
-		},
+		}
 	]
 
 	@prompt prompts, (props) =>
@@ -53,10 +55,8 @@ Generator::files = ->
 	if @js
 		bowerJson = 'bower_components/jquery/bower.json'
 		if @exists bowerJson
-			@localJquery = true
 			write()
 		else
-			@localJquery = false
 			bowerJsonDir = '__bwr'
 			bowerJson = "#{bowerJsonDir}/bower.json"
 			remoteBowerJson = 'https://raw.github.com/components/jquery/master/bower.json'
