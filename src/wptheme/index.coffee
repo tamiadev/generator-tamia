@@ -35,7 +35,11 @@ Generator::askFor = ->
 		done()
 
 Generator::theme = ->
-	@template 'wptheme/**/*', @themeDir
+	@template 'wptheme/**/*.php', @themeDir
+	@template 'wptheme/css/*.css', path.join(@themeDir, 'css')
+	@template 'wptheme/readme.txt', path.join(@themeDir, 'readme.txt')
+	@template 'wptheme/css/theme-head.css', path.join(@themeDir, 'style.css')
+	@copy 'wptheme/screenshot.png', path.join(@themeDir, 'screenshot.png')
 
 Generator::configs = ->
 	@templateIfNot 'humans.txt', path.join(@themeDir, 'humans.txt')
