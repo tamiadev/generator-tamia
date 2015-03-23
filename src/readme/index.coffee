@@ -45,10 +45,10 @@ Generator::askFor = ->
 		done()
 
 Generator::readme = ->
-	@author = @process 'Readme_license.md'  if @author
+	@author = @process 'Readme_author.md'  if @author
 	@license = @process 'Readme_license.md'  if @license
 	@changelog = @process 'Readme_changelog.md'  if @changelog
-	@contributing = @process 'Readme_changelog.md'  if @contributing
+	@contributing = @process 'Readme_contributing.md'  if @contributing
 	@travis = @process 'Readme_travis.md'  if @exists '.travis.yml'
 
 	unless @exists filepath_readme
@@ -56,7 +56,7 @@ Generator::readme = ->
 
 		if @travis
 			lines = readme.split '\n'
-			lines[0] = @_.trim "#{lines[0]} #{@travis}"
+			lines[0] = @_.trim "#{lines[0]}\n\n#{@travis}\n"
 			readme = lines.join '\n'
 
 		@log.create filepath_readme

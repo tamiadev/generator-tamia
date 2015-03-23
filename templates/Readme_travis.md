@@ -1,1 +1,1 @@
-[![Build Status](https://travis-ci.org/sapegin/<%= project %>.png)](https://travis-ci.org/sapegin/<%= project %>)
+[![Build Status](https://travis-ci.org/sapegin/<%= project %>.svg)](https://travis-ci.org/sapegin/<%= project %>)
