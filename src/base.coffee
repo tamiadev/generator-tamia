@@ -9,7 +9,7 @@ through = require 'through2'
 chalk = require 'chalk'
 moment = require 'moment'
 
-Gruntfile = require './gruntfile'
+Gruntfile = require './gruntutils'
 
 module.exports = class Generator extends yeoman.generators.Base
 	constructor: (args, options) ->
