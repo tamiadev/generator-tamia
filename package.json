@@ -21,21 +21,22 @@
     "prepublish": "coffee -o ./ -c src/"
   },
   "dependencies": {
-    "ast-types": "~0.7.0",
-    "chalk": "~1.0.0",
-    "configstore": "~0.3.2",
+    "ast-types": "~0.8.3",
+    "chalk": "~1.1.0",
+    "configstore": "~1.2.0",
+    "glob": "~5.0.13",
     "gruntfile-construct": "git://github.com/albburtsev/gruntfile-construct",
-    "glob": "~5.0.3",
-    "lodash": "~3.5.0",
-    "moment": "~2.9.0",
+    "lodash": "~3.10.0",
+    "moment": "~2.10.3",
     "ncp": "~2.0.0",
-    "rimraf": "~2.3.2",
-    "through2": "~0.6.3",
-    "yeoman-generator": "~0.18.10"
+    "rimraf": "~2.4.1",
+    "through2": "~2.0.0",
+    "underscore.string": "~3.1.1",
+    "yeoman-generator": "~0.20.1"
   },
   "devDependencies": {
-    "coffee-script": "~1.9.1",
-    "coffeelint": "~1.9.2"
+    "coffee-script": "~1.9.3",
+    "coffeelint": "~1.10.1"
   },
   "engines": {
     "node": ">=0.10.0"

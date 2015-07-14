@@ -3,20 +3,21 @@
 
 'use strict'
 
-base = require '../base'
 glob = require 'glob'
+_ = require 'lodash'
+base = require '../base'
 
 module.exports = class Generator extends base
 
 Generator::showList = ->
 	modules = glob.sync '*', {cwd: 'tamia/modules'}
 
-	modules = @_.map modules, (name) =>
+	modules = _.map modules, (name) =>
 		readme = @read "tamia/modules/#{name}/Readme.md"
 		m = readme.match /^#.*?\n+([^\n]+?)\n/
 		[name, m && m[1] || '']
 
-	@modules = @_.pluck modules, 0
+	@modules = _.pluck modules, 0
 
 	@echo ''
 	@echo @chalk.bold 'Available modules:'

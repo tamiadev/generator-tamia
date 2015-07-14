@@ -8,6 +8,8 @@ yeoman = require 'yeoman-generator'
 through = require 'through2'
 chalk = require 'chalk'
 moment = require 'moment'
+_ = require 'lodash'
+_.mixin (require 'underscore.string').exports()
 
 Gruntfile = require './gruntutils'
 
@@ -18,7 +20,7 @@ module.exports = class Generator extends yeoman.generators.Base
 		# Config
 		package_name = require('./package').name
 		@userConfig = new Configstore package_name
-		@_.extend this, @userConfig.all
+		_.extend this, @userConfig.all
 		if not @authorName and options.namespace isnt 'tamia:init'
 			@stop 'Generator config not found. Please run yo tamia:init.'
 
@@ -53,10 +55,10 @@ Generator::hookFor = (name, config) ->
 
 	# Add the corresponding option to this class, so that we output these hooks in help
 	@option name,
-		desc: @_.humanize(name) + ' to be invoked'
+		desc: _.humanize(name) + ' to be invoked'
 		defaults: @options[name] or ''
 
-	@_hooks.push (@_.defaults config, name: name)
+	@_hooks.push (_.defaults config, name: name)
 
 	this
 
@@ -165,7 +167,7 @@ Generator::installFromBower = (packages, skip_gitignore = false) ->
 	# Filter out already installed modules to speed up installation
 	if @exists filepath
 		json = @fs.readJSON filepath
-		packages = @_.filter packages, ((pkg) -> not json?.dependencies[pkg])
+		packages = _.filter packages, ((pkg) -> not json?.dependencies[pkg])
 	return  if not packages.length
 
 	@echo 'Installing ' + (@wordlist packages) + ' from Bower...'
@@ -189,7 +191,7 @@ Generator::installFromNpm = (packages) ->
 
 	# Filter out already installed modules to speed up installation
 	json = @fs.readJSON filepath
-	packages = @_.filter packages, ((pkg) -> not json?.devDependencies?[pkg])
+	packages = _.filter packages, ((pkg) -> not json?.devDependencies?[pkg])
 	return  unless packages.length
 
 	@echo 'Installing ' + (@wordlist packages) + ' from npm...'
@@ -233,12 +235,12 @@ Prints list in a table:
 @params {Array} items Items array.
 ###
 Generator::printList = (items) ->
-	width = @_.reduce items, ((max, row) ->
+	width = _.reduce items, ((max, row) ->
 		Math.max row[0].length, max
 		), 0
 
-	@_.each items, (row) =>
-		@echo (@chalk.white(@_.pad row[0], width)), row[1]
+	_.each items, (row) =>
+		@echo (@chalk.white(_.pad row[0], width)), row[1]
 
 ###
 Reads a template from templates folder.
@@ -361,7 +363,7 @@ Generator::_printLog = (func, messages...) ->
 	colorize = (msg) ->
 		msg.replace(/`(.*?)`/g, (m, str) -> chalk.cyan(str))
 
-	messages = @_.map messages, colorize
+	messages = _.map messages, colorize
 	@log[func] messages...
 
 ###

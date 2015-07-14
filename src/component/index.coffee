@@ -3,6 +3,7 @@
 
 'use strict'
 
+_ = require 'underscore.string'
 base = require '../base'
 
 module.exports = class Generator extends base
@@ -22,8 +23,8 @@ Generator::askFor = ->
 
 Generator::prepare = ->
 	name = @name
-	@name = @_.dasherize name
-	@cls = @_.classify name
+	@name = _.dasherize name
+	@cls = _.classify name
 
 Generator::files = ->
 	filepath = "js/components/#{@name}.js"

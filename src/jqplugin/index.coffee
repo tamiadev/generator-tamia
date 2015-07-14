@@ -2,6 +2,7 @@
 
 'use strict'
 
+_ = require 'underscore.string'
 base = require '../base'
 
 module.exports = class Generator extends base
@@ -14,9 +15,9 @@ Generator::askFor = ->
 	]
 
 	@prompt prompts, (props) =>
-		@name = @_.capitalize props.name
+		@name = _.capitalize props.name
 		@filename = (props.name.replace /[^a-z]/ig, '').toLowerCase()
-		@cls = @_.classify props.name
+		@cls = _.classify props.name
 		@method = (@cls.charAt 0).toLowerCase() + @cls.slice(1)
 		done()
 

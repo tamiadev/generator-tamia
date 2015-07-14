@@ -2,6 +2,7 @@
 
 'use strict'
 
+_ = require 'lodash'
 base = require '../base'
 
 module.exports = class Generator extends base
@@ -41,7 +42,7 @@ Generator::askFor = ->
 		}
 
 	@prompt prompts, (props) =>
-		@_.extend this, props
+		_.extend this, props
 		done()
 
 Generator::readme = ->
@@ -56,7 +57,7 @@ Generator::readme = ->
 
 		if @travis
 			lines = readme.split '\n'
-			lines[0] = @_.trim "#{lines[0]}\n\n#{@travis}\n"
+			lines[0] = "#{lines[0]}\n\n#{@travis}\n".trim()
 			readme = lines.join '\n'
 
 		@log.create filepath_readme
@@ -74,7 +75,7 @@ Generator::readme = ->
 
 		@log.update filepath_readme
 
-	@write filepath_readme, (@_.trim readme)
+	@write filepath_readme, readme.trim()
 
 Generator::rest = ->
 	@templateIfNot 'License.md'  if @license

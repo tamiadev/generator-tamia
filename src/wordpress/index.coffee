@@ -6,6 +6,7 @@ path = require 'path'
 crypto = require 'crypto'
 ncp = require 'ncp'
 rimraf = require 'rimraf'
+_ = require 'lodash'
 base = require '../base'
 
 module.exports = class Generator extends base
@@ -54,7 +55,7 @@ Generator::askFor = ->
 	]
 
 	@prompt prompts, (props) =>
-		@_.extend this, props
+		_.extend this, props
 		done()
 
 Generator::wordpress = ->

@@ -57,7 +57,7 @@ Generator::copy = ->
 		readme = @read 'Readme.md'
 		travis = @process 'Readme_travis.md'
 		lines = readme.split '\n'
-		lines[0] = @_.trim "#{lines[0]} #{travis}"
+		lines[0] = "#{lines[0]} #{travis}".trim()
 		readme = lines.join '\n'
 		@write 'Readme.md', readme
 		@log.update 'Readme.md'

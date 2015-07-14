@@ -3,6 +3,7 @@
 util = require 'util'
 path = require 'path'
 base = require '../base'
+_ = require 'lodash'
 
 module.exports = class Generator extends base
 	constructor: (args, options) ->
@@ -26,7 +27,7 @@ Generator::askFor = ->
 	]
 
 	@prompt prompts, (props) =>
-		@_.extend this, props
+		_.extend this, props
 		done()
 
 Generator::all = ->
