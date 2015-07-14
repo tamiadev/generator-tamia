@@ -74,7 +74,7 @@ define('WPLANG', '<%= lang %>');
 /**
  * Uploads directory.
  */
-define('UPLOADS', dirname(__FILE__) . '/uploads');
+define('UPLOADS', 'uploads');
 
 /**
  * Disable file editing in dashboard.
